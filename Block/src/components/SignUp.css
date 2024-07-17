@@ -1,49 +1,180 @@
-.signup-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  .signup-box {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .signup-box h2 {
-    margin-bottom: 20px;
-  }
-  
-  .signup-form .form-group {
-    margin-bottom: 15px;
-    text-align: left;
-  }
-  
-  .signup-form .form-group label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .signup-form .form-group input,
-  .signup-form .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: none; /* 모든 border 제거 */
-    border-bottom: 1px solid #ddd; /* 아래쪽 border만 남기기 */
-    border-radius: 0; /* border-radius 제거 */
-  }
-  
-  .signup-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-    width : 100%;
-  }
-  
+.signup-form {
+  max-width: 500px;
+  margin: auto;
+  padding: 1em;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.signup-form h2 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.input-group {
+  display: grid;
+  grid-template-columns: 1fr auto; /* Input takes up available space, button takes up auto width */
+  align-items: center;
+  gap: 0.5em; /* Add some spacing between input and button */
+  margin-bottom: 1em;
+}
+
+.input-group input{
+  width: 100%;
+  padding: 0.5em;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  box-sizing: border-box;
+  outline: none;
+  padding-left: 2.5em; /* 아이콘 공간 확보를 위한 왼쪽 패딩 추가 */
+}
+
+.input-group select {
+  width: 100%;
+  padding: 0.5em;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-bottom-color: #007bff;
+}
+
+.input-group .file-input {
+  flex: 1;
+}
+
+.input-group button {
+  padding: 0.5em 1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 100%; /* Ensure the button height matches the input */
+}
+
+.terms-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-top: 20px;
+}
+
+.terms-group div {
+  display: flex;
+  align-items: center;
+}
+
+.terms-group input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+.signup-form button[type="submit"] {
+  width: 100%;
+  padding: 0.7em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* 모달 스타일 추가 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure the modal is on top */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 70px 20px 20px 20px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 1001; /* Ensure the modal content is on top */
+  width: 80%; /* Increase the width */
+  max-width: 800px; /* Set a maximum width */
+  height: 100%; /* Increase the height */
+  max-height: 500px; /* Set a maximum height */
+}
+
+.modal-content button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff5c5c;
+  color: #fff;
+  border: none;
+  padding: 0.5em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submitButton {
+  margin-top: 20px;
+}
+
+.input-id {
+  background-image: url(img/icon_id.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+}
+
+.input-password {
+  background-image: url(img/icon_password.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+}
+
+.input-name {
+  background-image: url(img/icon_name.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+}
+
+.input-birth {
+  background-image: url(img/icon_birth.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+}
+
+.input-phone {
+  background-image: url(img/icon_phone.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+}
+
+.input-address {
+  background-image: url(img/icon_address.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+}
+
+.input-school {
+  background-image: url(img/icon_school.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+}
+
+.input-major {
+  background-image: url(img/icon_major.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+}
+
+.submitButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
