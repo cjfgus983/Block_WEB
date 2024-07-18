@@ -34,11 +34,11 @@ const Login = () => {
           </button>
         </form>
         <div className="login-options">
-          <Link to="/signup" className="signup-button">
-            <img src="/img/btn_signup.png" alt="Signup" />
+          <Link to="/signup">
+            <img src="/img/btn_signup.png" alt="Signup" className="sign" />
           </Link>
-          <Link to="/signup" className="kakao-login-button">
-            <img src="/img/btn_kakao.png" alt="Signup" />
+          <Link to="/signup">
+            <img src="/img/btn_kakao.png" alt="Kakao" className="kakao" />
           </Link>
         </div>
       </div>
