@@ -1,0 +1,34 @@
+.card {
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 10px;
+    text-align: center;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .card-content {
+    padding: 10px;
+  }
+  
+  .card-title {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+  }
+  
+  .card-organization {
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .card-description {
+    font-size: 0.9em;
+    color: #555;
+  }
+  
