@@ -13,7 +13,7 @@ const Navbar = () => {
       <div className="navbar-right">
         <div className="navbar-user">
           <img
-            src="/img/user-avatar.png"
+            src="/img/welcome-background.png"
             alt="User Avatar"
             className="user-avatar"
           />
