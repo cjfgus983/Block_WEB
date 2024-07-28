@@ -1,0 +1,81 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-top: 50px;
+}
+
+.login-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+}
+
+.login-box p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-form {
+  display: flex;
+  align-items: center;
+}
+
+.form-inputs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px; /* 간격을 늘리기 위해 값을 조정 */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: none; /* 모든 border 제거 */
+  border-bottom: 1px solid #ddd; /* 아래쪽 border만 남기기 */
+  border-radius: 0; /* border-radius 제거 */
+}
+
+.login-button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 100px; /* 아이디와 비밀번호 입력란의 높이와 일치시킴 */
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  background-color: none;
+}
+
+
+.sign{
+  margin-right: 10px;
+}
+
+.kakao{
+  margin-left: 10px;
+}
