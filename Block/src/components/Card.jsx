@@ -15,9 +15,9 @@ const Card = ({ title, description, imageUrl, organization, deadline }) => {
       <img src={imageUrl} alt={title} className="card-image" />
       <div className="card-deadline">{calculateDday(deadline)}</div>
       <div className="card-content">
-        <h3 className="card-title">{title}</h3>
         <p className="card-organization">{organization}</p>
-        <p className="card-description">{description}</p>
+        <h3 className="card-title">{title}</h3>
+        {/* <p className="card-description">{description}</p> */}
       </div>
     </div>
   );

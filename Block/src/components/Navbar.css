@@ -6,6 +6,7 @@
   align-items: center;
   position: relative;
   height: 80px;
+  font-family: Pretendard-Regular;
 }
 
 .navbar::after {

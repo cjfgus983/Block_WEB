@@ -17,28 +17,28 @@ const MainPage = () => {
     {
       title: "현장실습 브이로그 및 블로그 공모전",
       description: "2024년 1학기 현장실습 브이로그 및 블로그 포스팅 공모전",
-      imageUrl: "img/sample2.png",
+      imageUrl: "img/welcome-background.png",
       organization: "숭실대학교",
       deadline: "2024-08-10",
     },
     {
       title: "세계기록유산 주제 애니메이션 공모전",
       description: "2024 세계기록유산 주제 애니메이션 공모전",
-      imageUrl: "img/sample3.png",
+      imageUrl: "img/welcome-background.png",
       organization: "유네스코 국제기록유산센터",
       deadline: "2024-08-20",
     },
     {
       title: "전기사랑 미디어 콘텐츠대전",
       description: "2024 전기사랑 미디어 콘텐츠대전",
-      imageUrl: "img/sample4.png",
+      imageUrl: "img/welcome-background.png",
       organization: "한국전기신문사",
       deadline: "2024-08-05",
     },
     {
       title: "한중 청소년 기업아이디어 공모전",
       description: "2024 한중 청소년 기업아이디어 공모전",
-      imageUrl: "img/sample5.png",
+      imageUrl: "img/welcome-background.png",
       organization: "한국수력원자력",
       deadline: "2024-08-25",
     },
@@ -99,22 +99,24 @@ const MainPage = () => {
   return (
     <div className="main-page">
       <div className="welcome-section">
-        <h1>블록에 접속하신 걸 환영합니다</h1>
-        <p>블록에서 맞춤 공모전과 대외 활동을 찾으세요</p>
+        <img
+          src="/img/welcome-background.png"
+          alt="Welcome Background"
+          className="welcome-img"
+        />
       </div>
-
       <section className="section">
         <div className="section-header">
           <h2>사용자 님 맞춤 공모전</h2>
+          <select
+            className="sort-select"
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="deadline">마감순</option>
+            <option value="name">이름순</option>
+          </select>
         </div>
-        <select
-          className="sort-select"
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-        >
-          <option value="deadline">마감순</option>
-          <option value="name">이름순</option>
-        </select>
         <div className="card-container">
           {sortedCompetitions.map((comp, index) => (
             <Card key={index} {...comp} />
@@ -125,8 +127,6 @@ const MainPage = () => {
       <section className="section">
         <div className="section-header">
           <h2>사용자 님 맞춤 대외활동</h2>
-        </div>
-        <div className="selections">
           <select
             className="sort-select"
             value={sortOrder}
