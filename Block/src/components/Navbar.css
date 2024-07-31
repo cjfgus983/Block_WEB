@@ -1,0 +1,23 @@
+.navbar {
+  background-color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  height: 80px;
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; /* 원하는 간격으로 조정 */
+  left: 0px; /* 원하는 시작점으로 조정 */
+  right: 0px; /* 원하는 끝점으로 조정 */
+  border-bottom: 2px solid #ddd; /* 끊어진 선 스타일 */
+}
+  
+  .navbar-logo img {
+    height: 40px;
+  }
+  
