@@ -110,6 +110,8 @@ const Container = styled.div `
     background-color: #5382DF;
     font-family: Pretendard-Regular;
     font-size: 28px;
+
+
 `;
 
 export default ModifyProfile;
