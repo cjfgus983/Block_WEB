@@ -1,14 +1,15 @@
 .card {
   width: 180px;
   border: none;
-  border-bottom: 2px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: hidden;
   margin: 10px;
   text-align: left;
   position: relative; /* Ensure the D-Day badge is positioned correctly */
   background-color: #fff;
   font-family: Pretendard-Regular;
+
+  
 }
 
 .card-image {
