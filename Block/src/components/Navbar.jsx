@@ -22,7 +22,9 @@ const Navbar = () => {
         <Link to="/mypage" className="navbar-button">
           마이페이지
         </Link>
-        <button className="navbar-button">로그아웃</button>
+        <Link to="/intro" className="navbar-button">
+          로그아웃
+        </Link>
       </div>
     </nav>
   );

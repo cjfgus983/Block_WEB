@@ -124,7 +124,7 @@ const MainPage = () => {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section2">
         <div className="section-header">
           <h2>사용자 님 맞춤 대외활동</h2>
           <select

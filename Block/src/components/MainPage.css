@@ -1,5 +1,6 @@
 .main-page {
   font-family: Pretendard-Regular;
+
 }
 
 /* .welcome-section{
@@ -14,7 +15,11 @@
 }
 
 .section {
-  margin: 20px;
+  margin: 50px 20px 20px 20px;
+}
+
+.section2 {
+  margin: 200px 20px 20px 20px;
 }
 
 .section-header {

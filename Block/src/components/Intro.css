@@ -12,15 +12,26 @@
   
   .hero-image {
     height: 800px;
-    width:auto;
+    width:100%;
   }
   
   .hero-text {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
+  }
+
+  .custom-button{
+    background: none;
+  border: none;
+  font-size: 32px; /* 텍스트 크기를 키웁니다 */
+  color: white; /* 텍스트 색상을 흰색으로 유지 */
+  cursor: pointer; /* 버튼처럼 클릭 가능하도록 */
+  padding: 0; /* 기본 버튼 패딩 제거 */
+  margin: 0; /* 기본 버튼 마진 제거 */
+  text-decoration: none;
   }
 
   
@@ -29,11 +40,43 @@
     text-align: center;
     height: 764px;
   }
-  
-  .universities-logos img, .recommendations .recommendation img, .connections .connection img {
+
+  .partner-universities h2{
+    color: #5382DF;
+  }
+
+  .personalized-recommendations h2{
+    color: #5382DF;
+  }
+
+  .easy-connection h2{
+    color: #5382DF;
+  }
+ 
+  .universities-logos{
+    display: flex;
+  justify-content: center;
+  gap: 40px;
+  }
+
+  .university-logo{
+    text-align: center;
+    margin: 60px;
+  }
+
+  .universities-logos img{
+    width: auto;
+    height: 160px;
+  }
+
+ /* .recommendations .recommendation img, .connections .connection img {
     width: 100px;
     height: auto;
-    margin: 10px;
+    margin: 20px;
+  } */
+
+  .recommendation img, .connection img{
+    height: 340px;
   }
   
   .recommendations, .connections {
@@ -57,7 +100,6 @@
   
   body {
     margin: 0;
-    overflow-y: hidden;
   }
   
   .outer {

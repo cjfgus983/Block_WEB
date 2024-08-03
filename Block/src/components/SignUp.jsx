@@ -153,21 +153,28 @@ const SignUp = () => {
           className="input-major"
         />
       </div>
-      <div className="input-group">
-        <select name="interest" value={form.interest} onChange={handleChange}>
-          <option value="">관심 분야</option>
+      <div className="input-group select-container">
+        <select
+          name="interest"
+          value={form.interest}
+          onChange={handleChange}
+          className={`select-element ${!form.interest ? "placeholder" : ""}`}
+        >
+          <option value="" disabled hidden>
+            관심 분야
+          </option>
+          <option value="개발">개발</option>
           {/* 추가 옵션 */}
         </select>
       </div>
-      <a htmlFor="portfolio" className="file-label">
-        포트폴리오(선택)
-      </a>
-      <div className="">
+      <div className="input-group">
         <input
-          type="file"
+          type="text"
           name="portfolio"
+          value={form.portfolio}
           onChange={handleChange}
-          className="file-input"
+          placeholder="포트폴리오(선택)"
+          className="input-portfolio"
         />
       </div>
       <div className="terms-group">
@@ -189,7 +196,7 @@ const SignUp = () => {
           />
           <label>마케팅 정보 수신 동의 (선택)</label>
         </div>
-        <div>
+        <div className="check-all">
           <input
             type="checkbox"
             name="allTerms"
