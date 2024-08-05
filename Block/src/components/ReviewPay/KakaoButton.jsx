@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Button = styled.img`
-  width: 400px;
-  height: 120px;
+  width: 360px;
+  height: 64px;
   margin-right: 40px;
   margin-left: 40px;
 `;

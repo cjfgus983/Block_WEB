@@ -9,7 +9,7 @@ import InfoReview from "./pages/InfoReview";
 import InfoSave from "./pages/InfoSave";
 import ReviewDetail from "./pages/ReviewDetail";
 import ReviewPay from "./pages/ReviewPay";
-
+import ReviewWrite from "./pages/ReviewWrite";
 function App() {
   return (
     <Router>
@@ -21,6 +21,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/info" element={<Info />} />
           <Route path="/infoReview/:title" element={<InfoReview />} />
+          <Route path="/reviewWrite/:title" element={<ReviewWrite />} />
           <Route path="/infoSave" element={<InfoSave />} />
           <Route path="/reviewDetail" element={<ReviewDetail />} />
           <Route path="/reviewPay" element={<ReviewPay />} />

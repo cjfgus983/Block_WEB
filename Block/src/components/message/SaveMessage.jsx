@@ -59,7 +59,7 @@ const SaveMessage = (props) => {
   const [moveHover, setMove] = useState(false);
   const [laterHover, setLater] = useState(false);
   const closeModal = () => {
-    props.close();
+    props.close(false);
   };
   return (
     <Page>

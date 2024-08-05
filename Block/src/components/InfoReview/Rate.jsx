@@ -8,13 +8,23 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 280px;
-  height: 400px;
+  height: 440px;
 `;
 const Profile = styled.img`
   width: 280px;
   height: 280px;
   border-radius: 20px;
   border: 1px solid #5382df;
+`;
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 270px;
+  height: 30px;
+  padding: 5px;
+  font-size: 24px;
+  font-family: "Pretendart-Regular";
 `;
 const TextRate = styled.div`
   display: flex;
@@ -148,6 +158,7 @@ const Rate = (props) => {
   return (
     <Container>
       <Profile src="" alt="profile" />
+      <User>{props.review.user}</User>
       <TextRate>{props.review.headline}</TextRate>
       <Star />
     </Container>

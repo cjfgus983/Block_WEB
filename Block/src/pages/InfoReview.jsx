@@ -1,39 +1,49 @@
 import React from "react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import Rate from "../components/InfoReview/Rate";
+import WriteButton from "../components/InfoReview/WriteButton";
 import PayMessage from "../components/message/PayMessage";
 
 const InfoReview = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const url = document.location.href.split("/").reverse()[0];
+  const write = () => {
+    navigate(`/reviewWrite/${url}`);
+  };
   const [openModal, setModal] = useState(false);
   const ModalStyle = {
     overlay: {
       zIndex: 1000,
     },
     content: {
-      width: "480px",
-      height: "400px",
+      width: "400px",
+      height: "780px",
       border: 0,
       margin: "0 auto",
-      marginTop: "260px",
+      marginTop: "50px",
     },
   };
   return (
     <Page>
-      <Title>공모전 후기</Title>
+      <Title>
+        공모전 후기
+        <Button onClick={write}>
+          <WriteButton />
+        </Button>
+      </Title>
       <Sub>해당 공모전의 후기를 확인할 수 있습니다.</Sub>
       <List>
-        {location.state.review.map((v) => (
-          <Container onClick={() => setModal(true)}>
+        {location.state.review.map((v, index) => (
+          <Container onClick={() => setModal(true)} key={index}>
             <Rate review={v} />
           </Container>
         ))}
       </List>
-      <ReactModal isOpen={openModal} style={ModalStyle}>
+      <ReactModal isOpen={openModal} style={ModalStyle} ariaHideApp={false}>
         <PayMessage close={setModal} />
       </ReactModal>
     </Page>
@@ -52,9 +62,9 @@ const Page = styled.div`
 `;
 const Title = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 438px;
+  justify-content: right;
+  width: 1080px;
   height: 80px;
   margin: 20px;
   font-size: 48px;
@@ -83,4 +93,9 @@ const Container = styled.div`
   width: 280px;
   height: 400px;
   margin: 40px;
+`;
+const Button = styled.div`
+  width: 160px;
+  height: 60px;
+  margin-left: 270px;
 `;

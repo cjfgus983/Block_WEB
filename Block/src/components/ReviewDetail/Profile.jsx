@@ -25,12 +25,23 @@ const TextRate = styled.div`
   padding: 32px;
   font-family: "Pretendard-SemiBold";
 `;
+const User = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 256px;
+  height: 24px;
+  padding: 12px;
+  font-size: 24px;
+  font-family: "Pretendard-Regular";
+`;
 
 const Profile = () => {
   return (
     <Container>
       <Profiles alt="profile" />
       <TextRate>최고의 공모전</TextRate>
+      <User>유저 이름</User>
     </Container>
   );
 };

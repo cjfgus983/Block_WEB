@@ -53,8 +53,8 @@ const Info = () => {
           <Poster poster={data.poster} />
           <Right>
             <Tags>
-              {data.tag.map((v) => (
-                <Tag subject={v} />
+              {data.tag.map((v, index) => (
+                <Tag key={index} subject={v} />
               ))}
             </Tags>
             <Date>
@@ -80,7 +80,7 @@ const Info = () => {
           </Button>
         </Bottom2>
       </Container>
-      <ReactModal isOpen={openModal} style={ModalStyle}>
+      <ReactModal isOpen={openModal} style={ModalStyle} ariaHideApp={false}>
         <SaveMessage close={closeModal} />
       </ReactModal>
     </Page>
@@ -117,6 +117,7 @@ const Title = styled.div`
 const Middle = styled.div`
   display: flex;
   flex-direction: row;
+  margin-bottom: 100px;
 `;
 const Right = styled.div`
   display: flex;
