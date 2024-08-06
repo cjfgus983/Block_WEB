@@ -10,6 +10,10 @@ import InfoSave from "./pages/InfoSave";
 import ReviewDetail from "./pages/ReviewDetail";
 import ReviewPay from "./pages/ReviewPay";
 import ReviewWrite from "./pages/ReviewWrite";
+import TeamMatch from "./pages/TeamMatch";
+import MatchApply from "./pages/MatchApply";
+import ShowApply from "./pages/ShowApply";
+
 function App() {
   return (
     <Router>
@@ -25,6 +29,9 @@ function App() {
           <Route path="/infoSave" element={<InfoSave />} />
           <Route path="/reviewDetail" element={<ReviewDetail />} />
           <Route path="/reviewPay" element={<ReviewPay />} />
+          <Route path="/teamMatch" element={<TeamMatch />} />
+          <Route path="/matchApply" element={<MatchApply />} />
+          <Route path="/showApply" element={<ShowApply />} />
         </Routes>
       </div>
     </Router>
