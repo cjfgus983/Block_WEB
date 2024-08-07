@@ -70,7 +70,7 @@ const SaveMessage = (props) => {
         <Buttons>
           <Link to="/infoSave">
             <Button
-              src={moveHover ? "/img/move_hover.svg" : " img/move_btn.svg"}
+              src={moveHover ? "/img/move_hover.svg" : "/img/move_btn.svg"}
               onMouseOver={() => setMove(true)}
               onMouseOut={() => setMove(false)}
             />

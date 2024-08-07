@@ -6,11 +6,19 @@ import styled from "styled-components";
 import Rate from "../components/InfoReview/Rate";
 import WriteButton from "../components/InfoReview/WriteButton";
 import PayMessage from "../components/message/PayMessage";
+import Dummy from "../dummy/Dummy";
 
 const InfoReview = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const url = document.location.href.split("/").reverse()[0];
+  const dummy = Dummy;
+  const length = dummy.length;
+  let data;
+  for (let i = 0; i < length; ++i) {
+    if (url == dummy[i].code) {
+      data = dummy[i];
+    }
+  }
   const write = () => {
     navigate(`/reviewWrite/${url}`);
   };
@@ -37,7 +45,7 @@ const InfoReview = () => {
       </Title>
       <Sub>해당 공모전의 후기를 확인할 수 있습니다.</Sub>
       <List>
-        {location.state.review.map((v, index) => (
+        {data.review.map((v, index) => (
           <Container onClick={() => setModal(true)} key={index}>
             <Rate review={v} />
           </Container>

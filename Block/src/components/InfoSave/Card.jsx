@@ -48,13 +48,13 @@ const Title = styled.div`
   font-size: 20px;
   font-family: "Pretendard-SemiBold";
 `;
-const Card = () => {
+const Card = (props) => {
   return (
     <Container>
-      <Poster src="" alt="poster" />
-      <Day>D - 2</Day>
-      <Agency>숭실대학교</Agency>
-      <Title>2024-1 비공학계 캡스톤디자인 경진대회 참여학생 모집</Title>
+      <Poster src={props.competition.poster} alt="poster" />
+      <Day>{props.competition.d_day}</Day>
+      <Agency>{props.competition.school}</Agency>
+      <Title>{props.competition.title}</Title>
     </Container>
   );
 };

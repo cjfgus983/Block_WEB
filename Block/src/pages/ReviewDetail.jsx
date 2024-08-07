@@ -6,7 +6,6 @@ import Profile from "../components/ReviewDetail/Profile";
 import Rate from "../components/ReviewDetail/Rate";
 import Comment from "../components/ReviewDetail/Comment";
 import Service from "../components/ReviewDetail/Service";
-import PageLink from "../components/ReviewDetail/PageLink";
 import ScoreMessage from "../components/message/ScoreMessage";
 const Page = styled.div`
   display: flex;
@@ -90,7 +89,6 @@ const ReviewDetail = () => {
           </Top>
           <Service />
           <Comment />
-          <PageLink />
         </Right>
       </Container>
       <Container>
@@ -104,7 +102,6 @@ const ReviewDetail = () => {
           </Top>
           <Service />
           <Comment />
-          <PageLink />
         </Right>
       </Container>
       <ReactModal isOpen={openModal} style={ModalStyle} ariaHideApp={false}>

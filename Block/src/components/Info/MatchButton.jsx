@@ -11,7 +11,7 @@ const Button = styled.img`
 const MatchButton = () => {
   const [hover, setHover] = useState(false);
   return (
-    <Link to="/">
+    <Link to="/teamMatch">
       <Button
         src={hover ? "/img/match_hover.svg" : "/img/match_btn.svg"}
         onMouseOver={() => setHover(true)}

@@ -13,10 +13,19 @@ import SaveButton from "../components/Info/SaveButton";
 import ReviewButton from "../components/Info/ReviewButton";
 import SaveMessage from "../components/message/SaveMessage";
 import Dummy from "../dummy/Dummy";
+import Save from "../dummy/Save";
 
 const Info = () => {
-  //실제 연결은 메인페이지에서 useNavigate와 state를 써서 넘겨주고, useLocation을 이용해 받으면 될 거 같아요
-  const data = Dummy;
+  //메인에서 공모전 클릭 시 개별 url로 이동하고, useLocation으로 주소 얻은 후 api연결
+  const dummy = Dummy;
+  const length = dummy.length;
+  const url = document.location.href.split("/").reverse()[0];
+  let data;
+  for (let i = 0; i < length; ++i) {
+    if (url == dummy[i].code) {
+      data = dummy[i];
+    }
+  }
   const navigate = useNavigate();
   const review = () => {
     console.log(data.code);
@@ -39,7 +48,7 @@ const Info = () => {
       height: "400px",
       border: 0,
       margin: "0 auto",
-      marginTop: "260px",
+      marginTop: "160px",
     },
   };
   return (
@@ -71,6 +80,8 @@ const Info = () => {
           <Button
             onClick={() => {
               setModal(true);
+              Save.push(data);
+              console.log(Save);
             }}
           >
             <SaveButton />

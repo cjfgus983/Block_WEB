@@ -1,19 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "../components/InfoSave/Card";
+import Save from "../dummy/Save";
 
 const InfoSave = () => {
+  const save = Save;
+  console.log(save);
   return (
     <Page>
       <Title>내 공모전과 대외 활동</Title>
       <Sub>저장한 공모전과 대외 활동을 확인할 수 있습니다.</Sub>
       <List>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        {save.map((v, index) => (
+          <Card key={index} competition={v} />
+        ))}
       </List>
     </Page>
   );
