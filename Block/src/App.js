@@ -8,6 +8,15 @@ import MyPage from './pages/myPage';
 import Intro from './components/Intro';
 import InfoTeam3 from './components/Info_team3';
 import Test from './components/test';
+import Info from "./pages/Info";
+import InfoReview from "./pages/InfoReview";
+import InfoSave from "./pages/InfoSave";
+import ReviewDetail from "./pages/ReviewDetail";
+import ReviewPay from "./pages/ReviewPay";
+import ReviewWrite from "./pages/ReviewWrite";
+import TeamMatch from "./pages/TeamMatch";
+import MatchApply from "./pages/MatchApply";
+import ShowApply from "./pages/ShowApply";
 
 function App() {
   return (
@@ -22,6 +31,15 @@ function App() {
           <Route path='/intro' element={<Intro/>}/>
           <Route path='/Info_team3' element={<InfoTeam3/>}/>
           <Route path='/test' element={<Test/>}/>
+          <Route path="/info/:title" element={<Info />} />
+          <Route path="/infoReview/:title" element={<InfoReview />} />
+          <Route path="/reviewWrite/:title" element={<ReviewWrite />} />
+          <Route path="/infoSave" element={<InfoSave />} />
+          <Route path="/reviewDetail" element={<ReviewDetail />} />
+          <Route path="/reviewPay" element={<ReviewPay />} />
+          <Route path="/teamMatch" element={<TeamMatch />} />
+          <Route path="/matchApply" element={<MatchApply />} />
+          <Route path="/showApply" element={<ShowApply />} />
         </Routes>
       </div>
     </Router>
