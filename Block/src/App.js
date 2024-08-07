@@ -6,6 +6,8 @@ import SignUp from './components/SignUp';
 import MainPage from './components/MainPage';
 import MyPage from './pages/myPage';
 import Intro from './components/Intro';
+import InfoTeam3 from './components/Info_team3';
+import Test from './components/test';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/mainpage" element={<MainPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path='/intro' element={<Intro/>}/>
+          <Route path='/Info_team3' element={<InfoTeam3/>}/>
+          <Route path='/test' element={<Test/>}/>
         </Routes>
       </div>
     </Router>
