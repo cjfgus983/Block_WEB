@@ -14,6 +14,7 @@ const Login = () => {
           <div className="form-inputs">
             <div className="form-group">
               <input
+                className="input-id"
                 type="text"
                 id="username"
                 name="username"
@@ -22,6 +23,7 @@ const Login = () => {
             </div>
             <div className="form-group">
               <input
+                className="input-pwd"
                 type="password"
                 id="password"
                 name="password"

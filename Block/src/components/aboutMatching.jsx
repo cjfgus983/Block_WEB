@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import styled from "styled-components";
 import "../assets/font/pretendard.css";
 import option_teamMatching from "../assets/img/option_teamMatching.png";
@@ -10,10 +10,33 @@ import optionClicked_gaveHeart from "../assets/img/optionClicked_gaveHeart.png";
 
 const AboutMatching = () => {
   const [clickedButton, setClickedButton] = useState(null);
+  const teamMatchingRef = useRef(null);
+  const heartToYouRef = useRef(null);
+  const gaveHeartRef = useRef(null);
 
   const handleClick = (buttonId) => {
     setClickedButton(buttonId);
   };
+
+  useEffect(() => {
+    const adjustScroll = (ref) => {
+      if (ref.current) {
+        const offsetTop = ref.current.offsetTop;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: "smooth",
+        });
+      }
+    };
+
+    if (clickedButton === "teamMatching") {
+      adjustScroll(teamMatchingRef);
+    } else if (clickedButton === "heartToYou") {
+      adjustScroll(heartToYouRef);
+    } else if (clickedButton === "gaveHeart") {
+      adjustScroll(gaveHeartRef);
+    }
+  }, [clickedButton]);
 
   return (
     <Container>
@@ -41,13 +64,10 @@ const AboutMatching = () => {
 
       <ContentContainer>
         {clickedButton && (
-          <BoxContent>
-            <Dubogi>더보기</Dubogi>
-            <CardsWrapper>
-              <Card imgSrc={getCardImage(clickedButton)}></Card>
-              <Card imgSrc={getCardImage(clickedButton)}></Card>
-              <Card imgSrc={getCardImage(clickedButton)}></Card>
-            </CardsWrapper>
+          <BoxContent ref={clickedButton === "teamMatching" ? teamMatchingRef : clickedButton === "heartToYou" ? heartToYouRef : gaveHeartRef}>
+            <Card imgSrc={getCardImage(clickedButton)}></Card>
+            <Card imgSrc={getCardImage(clickedButton)}></Card>
+            <Card imgSrc={getCardImage(clickedButton)}></Card>
           </BoxContent>
         )}
       </ContentContainer>
@@ -68,22 +88,6 @@ const getCardImage = (buttonId) => {
   }
 };
 
-const Dubogi = styled.button`
-  background-color: #5382DF;
-  font-family: Pretendard-Regular;
-  font-size: 20px;
-  color: white;
-  border-radius: 10px;
-  width: auto;
-  height: auto;
-  padding: 5px 30px;
-  margin: 40px; 
-  border: none;
-  cursor: pointer;
-  margin-left: auto;
-  margin-right: 5%;
-`;
-
 const Card = styled.div`
   width: 240px;
   height: 240px;
@@ -94,26 +98,16 @@ const Card = styled.div`
   background-position: center;
 `;
 
-const CardsWrapper = styled.div`
-  display: flex;
-  justify-content: space-between; 
-  gap: 20px; 
-  align-items: center;
-  width: 90%; 
-  padding: 0% 5% 5% 5%; 
-  overflow-x: auto; 
-`;
-
 const ChoiceContainer = styled.div`
   background-color: #5382DF;
   font-family: Pretendard-Regular;
   font-size: 28px;
-  width: 90%; 
+  width: 1200px; 
   padding: 0% 5% ; 
   display: flex;
   justify-content: space-between; 
   align-items: center;
-  gap: 20px; 
+  margin: 0 auto;
 `;
 
 const ContentContainer = styled.div`
@@ -124,17 +118,20 @@ const ContentContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 1200px;
 `;
 
 const BoxContent = styled.div`
   display: flex;
-  flex-direction: column; 
-  width: 80%;
-  height: 100%;
+  justify-content: space-evenly;
+  width: 1200px;
+  height: auto;
   background-color: white;
   align-items: center;
-  padding: 20px;
+  padding: 100px 0px;
   border-radius: 21px;
+
+
 `;
 
 const ClickBox = styled.button`
@@ -147,7 +144,7 @@ const ClickBox = styled.button`
   border-radius: 21px;
   width: 320px;
   height: 320px;
-  margin: 50px;
+  margin-top: 60px;
   border: none;
   overflow: hidden;
   cursor: pointer;
@@ -162,6 +159,12 @@ const Container = styled.div`
   background-color: #5382DF;
   font-family: Pretendard-Regular;
   font-size: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  
 `;
 
 export default AboutMatching;

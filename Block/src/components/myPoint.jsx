@@ -43,7 +43,7 @@ const MyPoint = () => {
             </PointHistory>
         </PointContainer>
     </Container>
-  );
+    );
 };
 
 const Container = styled.div `
@@ -65,11 +65,17 @@ const PointContainer = styled.div `
 const PointSummary = styled.div `
     background-color: white;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     border-radius: 20px;
+
+    @media screen and (max-width: 950px) {
+        flex-direction: column;
+    }
 `;
 const PointHistory = styled.div `
+
+    display : none;
     background-color: white;
     border-radius: 20px;
     margin-top: 50px;
