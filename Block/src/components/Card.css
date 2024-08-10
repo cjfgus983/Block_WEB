@@ -1,3 +1,7 @@
+/* 안 쓰는 부분 */
+/* 나중에 삭제 할게요 */
+
+
 .card {
   width: 180px;
   border: none;
@@ -8,7 +12,6 @@
   position: relative; /* Ensure the D-Day badge is positioned correctly */
   background-color: #fff;
   font-family: Pretendard-Regular;
-
   
 }
 
@@ -48,3 +51,6 @@
   color: #555;
 }
   
+
+
+
