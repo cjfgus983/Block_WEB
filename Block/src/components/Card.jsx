@@ -62,9 +62,16 @@ const Title = styled.div`
   font-family: "Pretendard-SemiBold";
 `;
 
-const Card = ({ title, description, imageUrl, organization, deadline }) => {
+const Card = ({
+  title,
+  description,
+  imageUrl,
+  organization,
+  deadline,
+  onClick,
+}) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Poster src={imageUrl} alt={title} />
       <Day>{calculateDday(deadline)}</Day>
       <Agency>{organization}</Agency>

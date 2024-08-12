@@ -28,9 +28,48 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 폼 제출 로직 추가
+
+    const requestBody = {
+      providerId: 1234,
+      email: form.userId,
+      password: form.password,
+      platform: "general",
+      name: form.name,
+      phoneNumber: form.phoneNumber,
+      university: form.university,
+      birthDay: form.birthdate,
+      univMajor: form.major,
+      portfolio: form.portfolio,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/v1/auth/sign-up",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // 수정된 부분
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      if (!response.ok) {
+        // 서버에서 에러 메시지를 반환하는 경우, 이를 읽어와 출력
+        const errorData = await response.json();
+        console.error("Error from server:", errorData);
+        throw new Error(errorData.message || "회원가입에 실패했습니다.");
+      }
+
+      const data = await response.json();
+      alert("회원가입에 성공했습니다!");
+      // 회원가입 성공 후 추가 로직 (예: 리다이렉트)
+    } catch (error) {
+      console.error("Error during sign up:", error);
+      alert(`회원가입 중 오류가 발생했습니다: ${error.message}`);
+    }
   };
 
   const handleComplete = (data) => {
