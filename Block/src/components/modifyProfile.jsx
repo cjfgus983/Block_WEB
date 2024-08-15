@@ -1,14 +1,31 @@
-import React from "react";
+import React , { useState }from "react";
 import styled from "styled-components";
 import "../assets/font/pretendard.css"
+import ModalModifyProfile from "./Modal/Finish_2";
+
 const ModifyProfile = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태를 관리합니다.
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsModalOpen(true); // 버튼 클릭 시 모달을 엽니다.
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // 모달을 닫는 함수입니다.
+  };
+
+
+
   return (
     <Container>
-        <div className="signup-container">
-      <div className="signup-box">
-        <form className="signup-form">
-          <div className="form-group">
-            <label htmlFor="username">아이디</label>
+      <div className="signup-container">
+        <div className="signup-box">
+          {/* 폼 제출 시 handleSubmit 함수를 호출하도록 설정합니다 */}
+          <form className="signup-form" onSubmit={handleSubmit}>
+            {/* 폼 필드들 */}
+            <div className="form-group">
+              <label htmlFor="username">아이디</label>
             <input
               type="text"
               id="username"
@@ -101,6 +118,7 @@ const ModifyProfile = () => {
         </form>
       </div>
     </div>
+    {isModalOpen && <ModalModifyProfile onClose={closeModal} />}
     </Container>
   );
 };

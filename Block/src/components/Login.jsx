@@ -14,6 +14,7 @@ const Login = () => {
           <div className="form-inputs">
             <div className="form-group">
               <input
+                className="input-id"
                 type="text"
                 id="username"
                 name="username"
@@ -22,6 +23,7 @@ const Login = () => {
             </div>
             <div className="form-group">
               <input
+                className="input-pwd"
                 type="password"
                 id="password"
                 name="password"
@@ -34,11 +36,11 @@ const Login = () => {
           </button>
         </form>
         <div className="login-options">
-          <Link to="/signup" className="signup-button">
-            <img src="/img/btn_signup.png" alt="Signup" />
+          <Link to="/signup">
+            <img src="/img/btn_signup.png" alt="Signup" className="sign" />
           </Link>
-          <Link to="/signup" className="kakao-login-button">
-            <img src="/img/btn_kakao.png" alt="Signup" />
+          <Link to="/signup">
+            <img src="/img/btn_kakao.png" alt="Kakao" className="kakao" />
           </Link>
         </div>
       </div>

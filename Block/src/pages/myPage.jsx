@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import styled from "styled-components";
 import "../assets/font/pretendard.css";
 import profileImg from "../assets/img/profile-img.jpg";
@@ -23,17 +23,23 @@ import MyPoint from "../components/myPoint";
 import AboutMatching from "../components/aboutMatching";
 import SavedContest from "../components/savedContest";
 
+
 const MyPage = () => {
     const [showModifyProfile, setShowModifyProfile] = useState(false);
     const [showMyPoint, setShowMyPoint] = useState(false);
     const [showSavedContest, setShowSavedContest] = useState(false);
     const [showMatching, setShowMatching] = useState(false);
+    const [allOptionsHidden, setAllOptionsHidden] = useState(true);
 
     const modifyProfileRef = useRef(null);
     const myPointRef = useRef(null);
     const savedContestRef = useRef(null);
     const matchingRef = useRef(null);
-    const optionContainerHeight = 72; // OptionContainer의 높이(px)
+    const optionContainerHeight = 72;
+
+    const [movie, setMovie] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         const adjustScroll = (ref) => {
@@ -57,12 +63,18 @@ const MyPage = () => {
         }
     }, [showModifyProfile, showMyPoint, showSavedContest, showMatching]);
 
+    useEffect(() => {
+        setAllOptionsHidden(
+            !showModifyProfile && !showMyPoint && !showSavedContest && !showMatching
+        );
+    }, [showModifyProfile, showMyPoint, showSavedContest, showMatching]);
+
     const handleModifyProfile = () => {
         setShowModifyProfile(!showModifyProfile);
         setShowMyPoint(false);
         setShowSavedContest(false);
         setShowMatching(false);
-        console.log('프로필 수정 클릭됨');
+        console.log('Profile modification clicked');
     };
 
     const handleMyPoint = () => {
@@ -70,7 +82,7 @@ const MyPage = () => {
         setShowModifyProfile(false);
         setShowSavedContest(false);
         setShowMatching(false);
-        console.log('내 포인트 클릭됨');
+        console.log('My points clicked');
     };
 
     const handleSavedContest = () => {
@@ -78,7 +90,7 @@ const MyPage = () => {
         setShowModifyProfile(false);
         setShowMyPoint(false);
         setShowMatching(false);
-        console.log('저장한 공모전 클릭됨');
+        console.log('Saved contests clicked');
     };
 
     const handleMatching = () => {
@@ -86,58 +98,92 @@ const MyPage = () => {
         setShowModifyProfile(false);
         setShowMyPoint(false);
         setShowSavedContest(false);
-        console.log('about 매칭 클릭됨');
+        console.log('About matching clicked');
     };
 
+    useEffect(() => {
+        const fetchMovies = async () => {
+            setIsLoading(true);
+            const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
+            const options = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMjhjZTE1MDcxOTI4YmY1MjFlMzczNTJiNmYxMTdkZiIsInN1YiI6IjY2MWNkOTgzZjNlMGRmMDE2M2E5NTg2NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.j90PFsY1a4nkgqMqWVK-aO0GE9zmozT37CxaXxMCctQ'
+                }
+            };
+            try {
+                const response = await fetch(url, options);
+                const data = await response.json();
+                if (data.results && data.results.length > 5) {
+                    setMovie(data.results[5]);
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchMovies();
+    }, [page]);
+
     return (
-        <Container>
-            <h2 style={{ textAlign: "center", fontFamily: "Pretendard-Bold", paddingTop: '30px' }}>마이페이지</h2>
-            <ProfileContainer>
-                <div className="user-profile">
-                    <img className="profile-img" src={profileImg} alt={profileImg} />
-                    <p><span style={{ fontFamily: "Pretendard-Bold" }}>사용자</span><span> 님</span></p>
-                    <img className="login-type" src={login_type1} alt={login_type1} style={{ width: "222px" }} />
-                </div>
-                <div className='profile-info'>
-                    <div className="school">
-                        <img className="school-img" src={profile_school} alt={profile_school} />
-                        <p>숭실대학교</p>
+        <Container allOptionsHidden={allOptionsHidden}>
+            <h2 style={{textAlign:"center", fontFamily:"Pretendard-Bold", paddingTop: '30px'}}>마이페이지</h2>
+            {movie && (
+                <ProfileContainer>
+                    <div className="user-profile">
+                        <img className="profile-img" src={profileImg} alt="Profile"/>
+                        <p><span style={{fontFamily: "Pretendard-Bold"}}>{movie.id}</span><span> 님</span></p>
+                        <img className="login-type" src={login_type1} alt="Login type" style={{width: "222px"}}/>
                     </div>
-                    <div className="major">
-                        <img className="major-img" src={profile_major} alt={profile_major} />
-                        <p>글로벌미디어학부</p>
+                    <div className='profile-info'>
+                        <div className="school">
+                            <img className="school-img" src={profile_school} alt="School"/>
+                            <p>{movie.title}</p>
+                        </div>
+                        <div className="major">
+                            <img className="major-img" src={profile_major} alt="Major"/>
+                            <p>{movie.vote_average}</p>
+                        </div>
+                        <div className="category">
+                            <img className="category-img" src={profile_like} alt="Category"/>
+                            <img className="category-design" src={choice_design} alt="Design"/>
+                            <img className="category-marketing" src={choice_marketing} alt="Marketing"/>
+                            <img className="category-media" src={choice_media} alt="Media"/>
+                            
+                        </div>
+                        
                     </div>
-                    <div className="category">
-                        <img className="category-img" src={profile_like} alt={profile_like} />
-                        <img className="category-design" src={choice_design} alt={choice_design} />
-                        <img className="category-marketing" src={choice_marketing} alt={choice_marketing} />
-                        <img className="category-media" src={choice_media} alt={choice_media} />
-                    </div>
-                </div>
-            </ProfileContainer>
+                </ProfileContainer>
+            )}
             <OptionContainer>
                 <button type="button" className="modifyProfile" onClick={handleModifyProfile}>
                     <img
                         className="option-modifyProfile"
-                        src={showModifyProfile ? optionClicked_modifyProfile : option_modifyProfile} alt={option_modifyProfile}
+                        src={showModifyProfile ? optionClicked_modifyProfile : option_modifyProfile}
+                        alt="Modify Profile"
                     />
                 </button>
                 <button type="button" className="myPoint" onClick={handleMyPoint}>
                     <img
                         className="option-myPoint"
-                        src={showMyPoint ? optionClicked_point : option_point} alt={option_point}
+                        src={showMyPoint ? optionClicked_point : option_point}
+                        alt="My Point"
                     />
                 </button>
                 <button type="button" className="savedContest" onClick={handleSavedContest}>
                     <img
                         className="option-savedContest"
-                        src={showSavedContest ? optionClicked_savedContest : option_savedContest} alt={option_savedContest}
+                        src={showSavedContest ? optionClicked_savedContest : option_savedContest}
+                        alt="Saved Contest"
                     />
                 </button>
                 <button type="button" className="matching" onClick={handleMatching}>
                     <img
                         className="option-matching"
-                        src={showMatching ? optionClicked_matching : option_matching} alt={option_matching}
+                        src={showMatching ? optionClicked_matching : option_matching}
+                        alt="Matching"
                     />
                 </button>
             </OptionContainer>
@@ -158,6 +204,7 @@ const MyPage = () => {
         </Container>
     );
 };
+
 
 const Container = styled.div`
     min-width: 1440px; 
@@ -224,7 +271,7 @@ const OptionContainer = styled.div`
     justify-content: center;
     align-items: center;
     background-color: #fff;
-    z-index: 100;
+    z-index: 99;
     margin: 0 auto;  
     button {
         background: none;
