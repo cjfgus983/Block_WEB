@@ -32,7 +32,7 @@ const SignUp = () => {
     e.preventDefault();
 
     const requestBody = {
-      providerId: 1234,
+      providerId: 12345,
       email: form.userId,
       password: form.password,
       platform: "general",
@@ -46,7 +46,7 @@ const SignUp = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/v1/auth/sign-up",
+        "http://13.209.114.87:8080/api/v1/auth/sign-up",
         {
           method: "POST",
           headers: {
