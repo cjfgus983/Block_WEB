@@ -1,5 +1,5 @@
 import React from "react";
-import "./Card.css";
+import styled from "styled-components";
 
 const calculateDday = (deadline) => {
   const today = new Date();
@@ -9,17 +9,74 @@ const calculateDday = (deadline) => {
   return diffDays > 0 ? `D-${diffDays}` : "D-Day";
 };
 
-const Card = ({ title, description, imageUrl, organization, deadline }) => {
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  height: 380px;
+  margin: 40px;
+  cursor: pointer;
+`;
+
+const Poster = styled.img`
+  width: 180px;
+  height: 200px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border: 1px solid black;
+`;
+
+const Day = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border: 1px solid #1d5ad4;
+  padding: 10px;
+  font-size: 20px;
+  background-color: #1d5ad4;
+  color: #ffffff;
+  font-family: "Pretendard-Bold";
+`;
+
+const Agency = styled.div`
+  display: flex;
+  align-items: center;
+  width: 180px;
+  height: 40px;
+  font-size: 18px;
+  font-family: "Pretendard-Regular";
+  color: #5382df;
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 180px;
+  height: 100px;
+  font-size: 20px;
+  font-family: "Pretendard-SemiBold";
+`;
+
+const Card = ({
+  title,
+  description,
+  imageUrl,
+  organization,
+  deadline,
+  onClick,
+}) => {
   return (
-    <div className="card">
-      <img src={imageUrl} alt={title} className="card-image" />
-      <div className="card-deadline">{calculateDday(deadline)}</div>
-      <div className="card-content">
-        <p className="card-organization">{organization}</p>
-        <h3 className="card-title">{title}</h3>
-        {/* <p className="card-description">{description}</p> */}
-      </div>
-    </div>
+    <Container onClick={onClick}>
+      <Poster src={imageUrl} alt={title} />
+      <Day>{calculateDday(deadline)}</Day>
+      <Agency>{organization}</Agency>
+      <Title>{title}</Title>
+    </Container>
   );
 };
 
