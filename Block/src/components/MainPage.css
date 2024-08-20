@@ -35,6 +35,12 @@
   justify-content: space-around;
 }
 
+.card-container > Card { /* 각 카드 컴포넌트를 가정합니다 */
+  flex: 1 1 18%; /* flex-grow, flex-shrink, flex-basis */
+  margin: 10px;
+  max-width: 180px; /* 최대 너비 설정, 카드의 실제 너비에 맞춰 조정 가능 */
+}
+
 h2 {
   margin: 20px 0;
   color: #007bff;

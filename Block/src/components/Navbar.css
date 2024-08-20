@@ -52,6 +52,20 @@
     cursor: pointer;
     text-decoration: none; /* Ensure link buttons do not have underline */
   }
+
+  .login-button {
+    margin-left: 10px;
+    padding: 0.5em 1em;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* Ensure link buttons do not have underline */
+    justify-content: center; /* Center text horizontally */
+    /* height: 100px; Specify height to match avatar height */
+    font-size: 16px; /* Ensure text size is consistent */
+  }
   
   .navbar-button:hover {
     background-color: #007bff;
@@ -59,6 +73,15 @@
   }
   
   .navbar-button:focus {
+    outline: none;
+  }
+
+  .login-button:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .login-button:focus {
     outline: none;
   }
   

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout } from "../redux/authSlice";
+import { login, logout } from "../redux/authSlice"; // login 액션도 추가
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -12,45 +12,44 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("token");
-    window.location.href = "/intro";
+    window.location.href = "/intro"; // 로그아웃 후 페이지 이동
   };
 
+  // 페이지가 로드될 때 토큰을 확인하고 로그인 상태 유지
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-      if (!token) {
-        console.error("No token found");
-        return;
-      }
-      const userId = 123;
+    if (token) {
+      // 토큰이 있으면 로그인 상태를 true로 설정
+      dispatch(login({ token }));
 
-      try {
-        const response = await fetch("http://13.209.114.87:8080/mypage", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      // 토큰이 있을 때만 사용자 정보를 가져오기
+      const fetchUserInfo = async () => {
+        try {
+          const response = await fetch("http://13.209.114.87:8080/mypage", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.error("Failed to fetch user info", errorData);
-          throw new Error("Failed to fetch user info");
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Failed to fetch user info", errorData);
+            throw new Error("Failed to fetch user info");
+          }
+
+          const data = await response.json();
+          setUserName(data.result.name); // 받아온 사용자 이름 상태에 저장
+        } catch (error) {
+          console.error("Error fetching user info:", error);
         }
+      };
 
-        const data = await response.json();
-        setUserName(data.result.name); // 받아온 사용자 이름 상태에 저장
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
-
-    if (isLoggedIn) {
-      fetchUserInfo(); // 사용자가 로그인되어 있으면 사용자 정보 가져오기
+      fetchUserInfo(); // 사용자 정보 가져오기
     }
-  }, [isLoggedIn]);
+  }, [dispatch]); // dispatch는 의존성 배열에 추가
 
   return (
     <nav className="navbar">
@@ -73,9 +72,9 @@ const Navbar = () => {
             <Link to="/mypage" className="navbar-button">
               마이페이지
             </Link>
-            <button className="navbar-button" onClick={handleLogout}>
+            <Link to="/intro" className="navbar-button" onClick={handleLogout}>
               로그아웃
-            </button>
+            </Link>
           </>
         ) : (
           <Link to="/login" className="navbar-button">

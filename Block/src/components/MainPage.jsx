@@ -1,95 +1,100 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { logout } from "../redux/authSlice";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Card from "./Card";
+import "./MainPage.css";
 
 const MainPage = () => {
-  const [userName, setUserName] = useState("");
-  const [userImageUrl, setUserImageUrl] = useState("");
   const [contests, setContests] = useState([]);
-  const { isLoggedIn } = useSelector((state) => state.auth); // 로그인 상태 가져오기
-  const dispatch = useDispatch();
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:3000/mypage", {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
+  const fetchContests = async () => {
+    const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
+    if (!token) {
+      console.error("Access token is not available.");
+      return;
+    }
 
-  //       if (!response.ok) {
-  //         throw new Error("데이터를 가져오는데 실패했습니다.");
-  //       }
+    try {
+      const response = await fetch(`http://13.209.114.87:8080/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+        },
+      });
 
-  //       const data = await response.json();
-  //       setUserName(data.result.userName);
-  //       setUserImageUrl(data.result.userImageUrl);
-  //       setContests(data.result.contestList);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch contests");
+      }
 
-  //   fetchData();
-  // }, []);
+      // 기본 공모전 정보 저장
+      setContests(data.result.contestList);
+      setHasMore(data.result.contestList.length > 0);
+      setPage((prev) => prev + 1);
+
+      // 각 공모전의 상세 정보 가져오기
+      fetchContestDetails(data.result.contestList);
+    } catch (error) {
+      console.error("Error fetching contests:", error);
+    }
+  };
+
+  const fetchContestDetails = async (contests) => {
+    const token = localStorage.getItem("token");
+    const detailedContests = await Promise.all(
+      contests.map(async (contest) => {
+        const response = await fetch(
+          `http://13.209.114.87:8080/contest/${contest.contestId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const detailData = await response.json();
+        return { ...contest, endDate: detailData.result.endDate };
+      })
+    );
+
+    setContests(detailedContests);
+  };
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        console.error("No token found");
-        return;
-      }
-      console.error(`Token found: ${token}`);
-
-      try {
-        const response = await fetch("http://localhost:3000/mypage", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.error("Failed to fetch user info", errorData);
-          throw new Error("Failed to fetch user info");
-        }
-
-        const data = await response.json();
-        setUserName(data.result.name); // 받아온 사용자 이름 상태에 저장
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
-
-    if (isLoggedIn) {
-      fetchUserInfo(); // 사용자가 로그인되어 있으면 사용자 정보 가져오기
-    }
-  }, [isLoggedIn]);
+    fetchContests();
+  }, []);
 
   return (
     <div>
-      <div className="profile">
-        <img src={userImageUrl} alt="User" />
-        <h1>{userName} 님, 환영합니다!</h1>
-      </div>
-      {/* <div className="contests">
-        {contests.map((contest) => (
-          <div key={contest.contestId} className="contest-card">
-            <img src={contest.contestImageUrl} alt={contest.contestName} />
-            <h2>{contest.contestName}</h2>
-            <p>{contest.contestHost}</p>
-            <p>{contest.contestCategory}</p>
-          </div>
-        ))}
-      </div> */}
+      <InfiniteScroll
+        dataLength={contests.length}
+        next={fetchContests}
+        hasMore={hasMore}
+        loader={<h4>Loading...</h4>}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <b>더 이상 불러올 데이터가 없습니다.</b>
+          </p>
+        }
+      >
+        <div className="card-container">
+          {contests.map((contest) => (
+            <Card
+              key={contest.contestId}
+              title={contest.contestName}
+              description={contest.contestCategory}
+              imageUrl={contest.contestImageUrl}
+              organization={contest.contestHost}
+              deadline={contest.endDate} // endDate 사용
+              onClick={() => console.log("Card clicked!")}
+            />
+          ))}
+        </div>
+      </InfiniteScroll>
     </div>
   );
 };
