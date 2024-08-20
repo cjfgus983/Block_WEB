@@ -50,8 +50,10 @@ const Agency = styled.div`
   font-size: 18px;
   font-family: "Pretendard-Regular";
   color: #5382df;
+  overflow: hidden; /* 컨텐츠가 넘칠 경우 숨김 처리 */
+  white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 말줄임표로 표시 */
 `;
-
 const Title = styled.div`
   display: flex;
   align-items: center;
