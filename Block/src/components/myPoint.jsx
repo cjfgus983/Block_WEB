@@ -1,49 +1,58 @@
-import React from "react";
+// MyPoint.jsx
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import "../assets/font/pretendard.css";
 import money from "../assets/img/money.png";
 
-const MyPoint = () => {
+const MyPoint = ({ userInfo }) => {
+    const [points, setPoints] = useState(0); // 초기 값을 0으로 설정
+
+    useEffect(() => {
+        const fetchPoints = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://13.209.114.87:8080/mypage/point', {
+                    method: 'GET',
+                    headers: {
+                        'accept': '*/*',
+                        'Authorization': `Bearer ${token}` 
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                if (data.result && data.result.point !== undefined) {
+                    setPoints(data.result.point); // API 응답에서 현재 포인트를 설정
+                    console.log(data.result.point); // 포인트 값 로그
+                } else {
+                    console.error('result or point is undefined', data);
+                }
+            } catch (error) {
+                console.error('Error fetching points:', error);
+            }
+        };
+
+        fetchPoints();
+    }, []);
+
     return (
-    <Container>
-        <PointContainer>
-            <PointSummary>
-                <div>
-                    <img style={{paddingRight: '30px'}} src={money} />
-                </div>
-                <div className="point-div">
-                    <p><span className="bold">사용자</span><span> 님의 현재 포인트</span></p>
-                    <p className="bold">12,000 P</p>
-                </div>
-            </PointSummary>
-            <PointHistory>
-                <p style={{fontSize: "40px"}}><span className="bold">사용자</span><span> 님의 포인트 내역</span></p>
-                <table className="history-table" style={{width: "100%"}}>
-                    <tr>
-                        <td className="point-name">공모전 리뷰 이벤트 당첨</td>
-                        <td className="add-point">+10,000 P</td>
-                    </tr>
-                    <tr>
-                        <td className="point-name">자세한 리뷰 보기</td>
-                        <td className="sub-point">-1,000 P</td>
-                    </tr>
-                    <tr>
-                        <td className="point-name">자세한 리뷰 보기</td>
-                        <td className="sub-point">-1,000 P</td>
-                    </tr>
-                    <tr>
-                        <td className="point-name">자세한 리뷰 보기</td>
-                        <td className="sub-point">-1,000 P</td>
-                    </tr>
-                    <tr>
-                        <td className="point-name">공모전 리뷰 이벤트 당첨</td>
-                        <td className="add-point">+5,000 P</td>
-                    </tr>
-                </table>
-            </PointHistory>
-        </PointContainer>
-    </Container>
-  );
+        <Container>
+            <PointContainer>
+                <PointSummary>
+                    <div>
+                        <img style={{paddingRight: '30px'}} src={money} alt="money icon" />
+                    </div>
+                    <div className="point-div">
+                        <p><span className="bold">{userInfo.name}</span><span> 님의 현재 포인트</span></p>
+                        <p className="bold">{points.toLocaleString()} P</p>
+                    </div>
+                </PointSummary>
+            </PointContainer>
+        </Container>
+    );
 };
 
 const Container = styled.div `
@@ -60,7 +69,6 @@ const Container = styled.div `
 const PointContainer = styled.div `
     width: 80%;
     margin: 0 10%;
-
 `;
 const PointSummary = styled.div `
     background-color: white;
@@ -72,28 +80,6 @@ const PointSummary = styled.div `
     @media screen and (max-width: 950px) {
         flex-direction: column;
     }
-`;
-const PointHistory = styled.div `
-    background-color: white;
-    border-radius: 20px;
-    margin-top: 50px;
-    padding: 20px 5%;
-    padding-bottom: 35px;
-
-    tr {
-        height: 50px;
-    }
-    .add-point {
-        color: #ED3939;
-        text-align: right;
-        font-family: Pretendard-Bold;
-    }
-    .sub-point {
-        color: #1D5AD4;
-        text-align: right;
-        font-family: Pretendard-Bold;
-    }
-    
 `;
 
 export default MyPoint;

@@ -36,6 +36,10 @@ const MyPage = () => {
     const matchingRef = useRef(null);
     const optionContainerHeight = 72;
 
+    const [userInfo, setUserInfo] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [page, setPage] = useState(1);
+
     useEffect(() => {
         const adjustScroll = (ref) => {
             if (ref.current) {
@@ -96,32 +100,60 @@ const MyPage = () => {
         console.log('About matching clicked');
     };
 
+    useEffect(() => {
+        const fetchInfo = async () => {
+            setIsLoading(true);
+            const token = localStorage.getItem('token');
+            const url = `http://13.209.114.87:8080/mypage`;
+            const options = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            };
+            try {
+                const response = await fetch(url, options);
+                // 응답 상태 확인
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+        
+                const data = await response.json();
+                console.log(data.result);
+                setUserInfo(data.result);
+
+            } catch (error) {
+                console.error(error);
+                 alert("데이터를 가져오는 중 오류가 발생했습니다.");
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchInfo();
+    }, [page]);
+
     return (
         <Container allOptionsHidden={allOptionsHidden}>
             <h2 style={{textAlign:"center", fontFamily:"Pretendard-Bold", paddingTop: '30px'}}>마이페이지</h2>
-            <ProfileContainer>
-                <div className="user-profile">
-                    <img className="profile-img" src={profileImg} alt="Profile"/>
-                    <p><span style={{fontFamily: "Pretendard-Bold"}}>사용자</span><span> 님</span></p>
-                    <img className="login-type" src={login_type1} alt="Login type" style={{width: "222px"}}/>
-                </div>
-                <div className='profile-info'>
-                    <div className="school">
-                        <img className="school-img" src={profile_school} alt="School"/>
-                        <p>숭실대학교</p>
+            {userInfo && (
+                <ProfileContainer>
+                    <div className="user-profile">
+                        <img className="profile-img" src={profileImg} alt="Profile"/>
+                        <p><span style={{fontFamily: "Pretendard-Bold"}}>{userInfo.name}</span><span> 님</span></p>
                     </div>
-                    <div className="major">
-                        <img className="major-img" src={profile_major} alt="Major"/>
-                        <p>글로벌미디어학부</p>
+                    <div className='profile-info'>
+                        <div className="school">
+                            <img className="school-img" src={profile_school} alt="School"/>
+                            <p>{userInfo.university}</p>
+                        </div>
+                        <div className="major">
+                            <img className="major-img" src={profile_major} alt="Major"/>
+                            <p>{userInfo.major}</p>
+                        </div>
                     </div>
-                    <div className="category">
-                        <img className="category-img" src={profile_like} alt="Category"/>
-                        <img className="category-design" src={choice_design} alt="Design"/>
-                        <img className="category-marketing" src={choice_marketing} alt="Marketing"/>
-                        <img className="category-media" src={choice_media} alt="Media"/>
-                    </div>
-                </div>
-            </ProfileContainer>
+                </ProfileContainer>
+            )}
             <OptionContainer>
                 <button type="button" className="modifyProfile" onClick={handleModifyProfile}>
                     <img
@@ -154,10 +186,10 @@ const MyPage = () => {
             </OptionContainer>
             <OptionContent>
                 <div ref={modifyProfileRef}>
-                    {showModifyProfile && <ModifyProfile />}
+                    {showModifyProfile && <ModifyProfile userInfo={userInfo}/>}
                 </div>
                 <div ref={myPointRef}>
-                    {showMyPoint && <MyPoint />}
+                    {showMyPoint && <MyPoint userInfo={userInfo}/>}
                 </div>
                 <div ref={savedContestRef}>
                     {showSavedContest && <SavedContest />}

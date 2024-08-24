@@ -4,11 +4,16 @@
   padding: 1em;
   background: #fff;
   border-radius: 5px;
+  font-family: Pretendard-Regular;
+  display: flex;          /* flexbox 컨테이너로 설정 */
+  flex-direction: column; /* 수직 방향으로 정렬 */
+  align-items: center;    /* 자식 요소들을 가운데 정렬 */
 }
 
 .signup-form h2 {
   text-align: center;
   margin-bottom: 1em;
+  width: 100%; /* 제목이 가운데 정렬되도록 전체 너비 사용 */
 }
 
 .input-group {
@@ -17,16 +22,27 @@
   align-items: center;
   gap: 0.5em; /* Add some spacing between input and button */
   margin-bottom: 1em;
+  width: 100%; /* input-group이 가운데 정렬되도록 전체 너비 사용 */
 }
 
-.input-group input{
+.signup-form button[type="submit"] {
+  padding: 0.7em;
+  color: #fff;
+  background-color: #5382df;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: center; /* 자신을 flex 컨테이너의 가운데에 위치 */
+}
+
+.input-group input {
   width: 100%;
   padding: 0.5em;
   border: none;
   border-bottom: 2px solid #ccc;
   box-sizing: border-box;
   outline: none;
-  padding-left: 2.5em; /* 아이콘 공간 확보를 위한 왼쪽 패딩 추가 */
+  padding-left: 3.0em; /* 아이콘 공간 확보를 위한 왼쪽 패딩 추가 */
 }
 
 .input-group select {
@@ -50,9 +66,9 @@
 .input-group button {
   padding: 0.5em 1em;
   color: #fff;
-  background-color: #007bff;
+  background-color: #5382df;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   height: 100%; /* Ensure the button height matches the input */
 }
@@ -66,21 +82,36 @@
 
 .terms-group div {
   display: flex;
-  align-items: center;
+  margin-top: 10px;
 }
 
 .terms-group input[type="checkbox"] {
-  margin-right: 0.5em;
+  margin-right: 0.5em; /* 체크박스와 레이블 사이의 간격 조정 */
+  transform: scale(1.5); /* 크기 조정 */
+  width: 15px; /* 기본 너비 설정 */
+  height: 15px; /* 기본 높이 설정 */
+}
+
+.check-all {
+  justify-content: center; /* 가운데 정렬 */
+}
+
+.check-all input[type="checkbox"] {
+  transform: scale(1.7); /* 크기를 더 크게 조정 */
+}
+
+.terms-group label {
+  margin-left: 0.5em;
 }
 
 .signup-form button[type="submit"] {
-  width: 100%;
   padding: 0.7em;
   color: #fff;
   background-color: #007bff;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
+  align-self: center; /* 버튼을 가운데 정렬 */
 }
 
 /* 모달 스타일 추가 */
@@ -126,54 +157,115 @@
 }
 
 .input-id {
-  background-image: url(../assets/img/icon_id.png);
+  background-image: url(img/icon_id.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
 }
 
 .input-password {
-  background-image: url(../assets/img/icon_password.png);
+  background-image: url(img/icon_password.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
 }
 
 .input-name {
-  background-image: url(../assets/img/icon_name.png);
+  background-image: url(img/icon_name.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
 }
 
 .input-birth {
-  background-image: url(../assets/img/icon_birth.png);
+  background-image: url(img/icon_birth.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
 }
 
 .input-phone {
-  background-image: url(../assets/img/icon_phone.png);
+  background-image: url(img/icon_phone.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
 }
 
 .input-address {
-  background-image: url(../assets/img/icon_address.png);
+  background-image: url(img/icon_address.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
 }
 
 .input-school {
-  background-image: url(../assets/img/icon_school.png);
+  background-image: url(img/icon_school.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
 }
 
 .input-major {
-  background-image: url(../assets/img/icon_major.png);
+  background-image: url(img/icon_major.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
+}
+
+.input-portfolio {
+  background-image: url(img/icon_portfolio.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
 }
 
 .submitButton:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+/* select 아이콘 추가 */
+.select-container {
+  position: relative;
+}
+
+.select-container select {
+  width: 100%;
+  padding: 0.5em;
+  padding-right: 2.5em; /* 아이콘 공간 확보를 위한 오른쪽 패딩 추가 */
+  border: none;
+  border-bottom: 2px solid #ccc;
+  box-sizing: border-box;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.select-container::after {
+  content: "▼"; /* 아이콘 또는 이미지 사용 가능 */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  color: #ccc;
+}
+
+/* select placeholder 스타일 */
+.select-element.placeholder {
+  background-image: url(img/icon_favorite.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
+
+  color: #999; /* placeholder 스타일 적용 */
+  width: 100%;
+  padding: 0.5em;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  box-sizing: border-box;
+  outline: none;
+  padding-left: 3.0em; /* 아이콘 공간 확보를 위한 왼쪽 패딩 추가 */
 }

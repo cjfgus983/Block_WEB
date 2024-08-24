@@ -1,0 +1,56 @@
+/* 안 쓰는 부분 */
+/* 나중에 삭제 할게요 */
+
+
+.card {
+  width: 180px;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px;
+  text-align: left;
+  position: relative; /* Ensure the D-Day badge is positioned correctly */
+  background-color: #fff;
+  font-family: Pretendard-Regular;
+  
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-deadline {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-content {
+}
+
+.card-title {
+  font-size: 1.2em;
+}
+
+.card-organization {
+  color: #007bff;
+  text-overflow: ellipsis;
+}
+
+.card-description {
+  font-size: 0.9em;
+  color: #555;
+}
+  
+
+
+
