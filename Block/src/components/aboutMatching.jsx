@@ -1,4 +1,4 @@
-import React, { useState,useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import "../assets/font/pretendard.css";
 import option_teamMatching from "../assets/img/option_teamMatching.png";
@@ -7,16 +7,55 @@ import option_heartToYou from "../assets/img/option_heartToYou.png";
 import optionClicked_heartToYou from "../assets/img/optionClicked_heartToYou.png";
 import option_gaveHeart from "../assets/img/option_gaveHeart.png";
 import optionClicked_gaveHeart from "../assets/img/optionClicked_gaveHeart.png";
+import applyPart_android from "../assets/img/applyPart_android.png";
+import applyPart_design from "../assets/img/applyPart_design.png";
+import applyPart_ios from "../assets/img/applyPart_ios.png";
+import applyPart_node from "../assets/img/applyPart_node.png";
+import applyPart_plan from "../assets/img/applyPart_plan.png";
+import applyPart_spring from "../assets/img/applyPart_spring.png";
+import applyPart_web from "../assets/img/applyPart_web.png";
+import likeProfileImg from "../assets/img/likeProfileImg.png";
 
 const AboutMatching = () => {
   const [clickedButton, setClickedButton] = useState(null);
+  const [apiData, setApiData] = useState([]);
+  const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const teamMatchingRef = useRef(null);
   const heartToYouRef = useRef(null);
   const gaveHeartRef = useRef(null);
 
   const handleClick = (buttonId) => {
     setClickedButton(buttonId);
+    if (buttonId === "gaveHeart") {
+      fetchApiData();
+    }
   };
+
+  const fetchApiData = async () => {
+    const token = localStorage.getItem("token");
+    setLoading(true); // 로딩 시작
+    try {
+      const response = await fetch("http://13.209.114.87:8080/mypage/like", {
+        method: 'GET',
+        headers: {
+          accept: "*/*",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('네트워크 응답이 정상적이지 않습니다.');
+      }
+  
+      const data = await response.json();
+      setApiData(data.result); // 수정된 부분
+    } catch (error) {
+      console.error("API 호출 오류:", error);
+    } finally {
+      setLoading(false); // 로딩 종료
+    }
+  };
+  
 
   useEffect(() => {
     const adjustScroll = (ref) => {
@@ -29,14 +68,34 @@ const AboutMatching = () => {
       }
     };
 
-    if (clickedButton === "teamMatching") {
-      adjustScroll(teamMatchingRef);
-    } else if (clickedButton === "heartToYou") {
-      adjustScroll(heartToYouRef);
-    } else if (clickedButton === "gaveHeart") {
-      adjustScroll(gaveHeartRef);
+    if (clickedButton) {
+      const ref = clickedButton === "teamMatching" ? teamMatchingRef
+               : clickedButton === "heartToYou" ? heartToYouRef
+               : gaveHeartRef;
+      adjustScroll(ref);
     }
   }, [clickedButton]);
+
+  const getImageForApplyPart = (applyPart) => {
+    switch (applyPart.toLowerCase()) {
+      case 'plan':
+        return applyPart_plan;
+      case 'android':
+        return applyPart_android;
+      case 'design':
+        return applyPart_design;
+      case 'ios':
+        return applyPart_ios;
+      case 'node':
+        return applyPart_node;
+      case 'spring':
+        return applyPart_spring;
+      case 'web':
+        return applyPart_web;
+      default:
+        return null;
+    }
+  };
 
   return (
     <Container>
@@ -47,7 +106,6 @@ const AboutMatching = () => {
           isClicked={clickedButton === 'teamMatching'}
           onClick={() => handleClick('teamMatching')}
         />
-
         <ClickBox
           imgSrc={option_heartToYou}
           hoverImgSrc={optionClicked_heartToYou}
@@ -65,9 +123,27 @@ const AboutMatching = () => {
       <ContentContainer>
         {clickedButton && (
           <BoxContent ref={clickedButton === "teamMatching" ? teamMatchingRef : clickedButton === "heartToYou" ? heartToYouRef : gaveHeartRef}>
-            <Card imgSrc={getCardImage(clickedButton)}></Card>
-            <Card imgSrc={getCardImage(clickedButton)}></Card>
-            <Card imgSrc={getCardImage(clickedButton)}></Card>
+            {loading ? (
+              <div>Loading...</div>
+            ) : clickedButton === "gaveHeart" ? (
+              apiData.map((item, index) => (
+                <LikeCard key={index}>
+                  <img style={{width: '160px', height: '160px'}} src={likeProfileImg} />
+                  <div>{item.name}</div>
+                  <div style={{paddingTop: '10px'}}>
+                    <img style={{width:'50%', paddingLeft:'25%'}} src={getImageForApplyPart(item.applyPart)} alt={item.applyPart} />
+                  </div>
+                </LikeCard>
+              ))
+            ) : (
+              <>
+                <Card imgSrc={getCardImage(clickedButton)}></Card>
+                <Card imgSrc={getCardImage(clickedButton)}></Card>
+                <Card imgSrc={getCardImage(clickedButton)}></Card>
+              </>
+            )}
+
+
           </BoxContent>
         )}
       </ContentContainer>
@@ -96,14 +172,20 @@ const Card = styled.div`
   background-image: url(${(props) => props.imgSrc});
   background-size: cover;
   background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30px;
 `;
+
 
 const ChoiceContainer = styled.div`
   background-color: #5382DF;
   font-family: Pretendard-Regular;
   font-size: 28px;
   width: 1200px; 
-  padding: 0% 5% ; 
+  padding: 0% 5%; 
   display: flex;
   justify-content: space-between; 
   align-items: center;
@@ -123,16 +205,32 @@ const ContentContainer = styled.div`
 
 const BoxContent = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  flex-wrap: wrap; /* 여러 줄로 감싸기 */
+  justify-content: flex-start; /* 왼쪽 정렬 */
   width: 1200px;
   height: auto;
   background-color: white;
-  align-items: center;
-  padding: 100px 0px;
+  align-items: flex-start; /* 카드 정렬 */
+  padding: 30px 50px; /* 패딩 조정 */
   border-radius: 21px;
-
-
 `;
+
+const LikeCard = styled.div `
+  width: calc(25% - 20px); /* 한 줄에 4개를 위해 너비 조정 */
+  height: 240px;
+  background-color: #5382DF;
+  border-radius: 21px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  background-color: white;
+  margin-right: 10px;
+`;
+
 
 const ClickBox = styled.button`
   background-image: ${(props) =>
@@ -163,8 +261,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  
 `;
 
 export default AboutMatching;
