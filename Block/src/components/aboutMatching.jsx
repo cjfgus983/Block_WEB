@@ -145,10 +145,18 @@ const AboutMatching = () => {
             ) : clickedButton === "gaveHeart" || clickedButton === "heartToYou" ? (
               apiData.map((item, index) => (
                 <LikeCard key={index}>
-                  <img style={{width: '160px', height: '160px'}} src={likeProfileImg} />
+                  <img
+                    style={{width: '160px', height: '160px'}}
+                    src={item.profileImage ? item.profileImage : likeProfileImg}
+                    alt={item.name}
+                  />
                   <div>{item.name}</div>
                   <div style={{paddingTop: '10px'}}>
-                    <img style={{width:'50%', paddingLeft:'25%'}} src={getImageForApplyPart(item.applyPart)} alt={item.applyPart} />
+                    <img
+                      style={{width:'50%', paddingLeft:'25%'}}
+                      src={getImageForApplyPart(item.applyPart)}
+                      alt={item.applyPart}
+                    />
                   </div>
                 </LikeCard>
               ))
@@ -177,21 +185,6 @@ const AboutMatching = () => {
     </Container>
   );
 };
-
-// const Card = styled.div`
-//   width: 240px;
-//   height: 240px;
-//   background-color: #5382DF;
-//   border-radius: 21px;
-//   background-image: url(${(props) => props.imgSrc});
-//   background-size: cover;
-//   background-position: center;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   margin-right: 30px;
-// `;
 
 const ChoiceContainer = styled.div`
   background-color: #5382DF;
