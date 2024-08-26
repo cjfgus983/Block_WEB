@@ -15,11 +15,12 @@ import applyPart_plan from "../assets/img/applyPart_plan.png";
 import applyPart_spring from "../assets/img/applyPart_spring.png";
 import applyPart_web from "../assets/img/applyPart_web.png";
 import likeProfileImg from "../assets/img/likeProfileImg.png";
+import Card from "./Card";
 
 const AboutMatching = () => {
   const [clickedButton, setClickedButton] = useState(null);
   const [apiData, setApiData] = useState([]);
-  const [loading, setLoading] = useState(false); // 로딩 상태 추가
+  const [loading, setLoading] = useState(false);
   const teamMatchingRef = useRef(null);
   const heartToYouRef = useRef(null);
   const gaveHeartRef = useRef(null);
@@ -27,35 +28,38 @@ const AboutMatching = () => {
   const handleClick = (buttonId) => {
     setClickedButton(buttonId);
     if (buttonId === "gaveHeart") {
-      fetchApiData();
+      fetchApiData("http://13.209.114.87:8080/mypage/like");
+    } else if (buttonId === "heartToYou") {
+      fetchApiData("http://13.209.114.87:8080/mypage/likeBy");
+    } else if (buttonId === "teamMatching") {
+      fetchApiData("http://13.209.114.87:8080/mypage/matchedContests");
     }
   };
 
-  const fetchApiData = async () => {
+  const fetchApiData = async (url) => {
     const token = localStorage.getItem("token");
-    setLoading(true); // 로딩 시작
+    setLoading(true);
     try {
-      const response = await fetch("http://13.209.114.87:8080/mypage/like", {
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           accept: "*/*",
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (!response.ok) {
         throw new Error('네트워크 응답이 정상적이지 않습니다.');
       }
-  
+
       const data = await response.json();
-      setApiData(data.result); // 수정된 부분
+      setApiData(data.result);
     } catch (error) {
       console.error("API 호출 오류:", error);
     } finally {
-      setLoading(false); // 로딩 종료
+      setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     const adjustScroll = (ref) => {
@@ -75,6 +79,19 @@ const AboutMatching = () => {
       adjustScroll(ref);
     }
   }, [clickedButton]);
+
+  const getCardImage = (buttonId) => {
+    switch (buttonId) {
+      case 'teamMatching':
+        return option_teamMatching;
+      case 'heartToYou':
+        return option_heartToYou;
+      case 'gaveHeart':
+        return option_gaveHeart;
+      default:
+        return '';
+    }
+  };
 
   const getImageForApplyPart = (applyPart) => {
     switch (applyPart.toLowerCase()) {
@@ -125,7 +142,7 @@ const AboutMatching = () => {
           <BoxContent ref={clickedButton === "teamMatching" ? teamMatchingRef : clickedButton === "heartToYou" ? heartToYouRef : gaveHeartRef}>
             {loading ? (
               <div>Loading...</div>
-            ) : clickedButton === "gaveHeart" ? (
+            ) : clickedButton === "gaveHeart" || clickedButton === "heartToYou" ? (
               apiData.map((item, index) => (
                 <LikeCard key={index}>
                   <img style={{width: '160px', height: '160px'}} src={likeProfileImg} />
@@ -135,6 +152,18 @@ const AboutMatching = () => {
                   </div>
                 </LikeCard>
               ))
+            ) : clickedButton === "teamMatching" ? (
+              apiData.map((contest, index) => (
+                <Card
+                  key={index}
+                  title={contest.title}
+                  description={contest.contestCategory}
+                  imageUrl={contest.imageUrl}
+                  organization={contest.contestHost}
+                  deadline={contest.endDate}
+                  onClick={() => console.log("Card clicked!")}
+                />
+              ))
             ) : (
               <>
                 <Card imgSrc={getCardImage(clickedButton)}></Card>
@@ -142,8 +171,6 @@ const AboutMatching = () => {
                 <Card imgSrc={getCardImage(clickedButton)}></Card>
               </>
             )}
-
-
           </BoxContent>
         )}
       </ContentContainer>
@@ -151,34 +178,20 @@ const AboutMatching = () => {
   );
 };
 
-const getCardImage = (buttonId) => {
-  switch (buttonId) {
-    case 'teamMatching':
-      return option_teamMatching;
-    case 'heartToYou':
-      return option_heartToYou;
-    case 'gaveHeart':
-      return option_gaveHeart;
-    default:
-      return '';
-  }
-};
-
-const Card = styled.div`
-  width: 240px;
-  height: 240px;
-  background-color: #5382DF;
-  border-radius: 21px;
-  background-image: url(${(props) => props.imgSrc});
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-right: 30px;
-`;
-
+// const Card = styled.div`
+//   width: 240px;
+//   height: 240px;
+//   background-color: #5382DF;
+//   border-radius: 21px;
+//   background-image: url(${(props) => props.imgSrc});
+//   background-size: cover;
+//   background-position: center;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   margin-right: 30px;
+// `;
 
 const ChoiceContainer = styled.div`
   background-color: #5382DF;
@@ -205,18 +218,18 @@ const ContentContainer = styled.div`
 
 const BoxContent = styled.div`
   display: flex;
-  flex-wrap: wrap; /* 여러 줄로 감싸기 */
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  flex-wrap: wrap;
+  justify-content: flex-start;
   width: 1200px;
   height: auto;
   background-color: white;
-  align-items: flex-start; /* 카드 정렬 */
-  padding: 30px 50px; /* 패딩 조정 */
+  align-items: flex-start;
+  padding: 30px 50px;
   border-radius: 21px;
 `;
 
-const LikeCard = styled.div `
-  width: calc(25% - 20px); /* 한 줄에 4개를 위해 너비 조정 */
+const LikeCard = styled.div`
+  width: calc(25% - 20px);
   height: 240px;
   background-color: #5382DF;
   border-radius: 21px;
@@ -230,7 +243,6 @@ const LikeCard = styled.div `
   background-color: white;
   margin-right: 10px;
 `;
-
 
 const ClickBox = styled.button`
   background-image: ${(props) =>
@@ -249,11 +261,13 @@ const ClickBox = styled.button`
 
   &:hover {
     background-image: url(${(props) => props.hoverImgSrc});
-    transition: all 0.5s; 
   }
 `;
 
 const Container = styled.div`
+  width: 100vw;
+  height: auto;
+  padding-bottom: 100px;
   background-color: #5382DF;
   font-family: Pretendard-Regular;
   font-size: 28px;
