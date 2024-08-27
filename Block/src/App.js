@@ -38,11 +38,11 @@ function App() {
               <Route path='/intro' element={<Intro />} />
               <Route path='/Info_team3' element={<InfoTeam3 />} />
               <Route path='/test' element={<Test />} />
-              <Route path="/info/:title" element={<Info />} />
-              <Route path="/infoReview/:title" element={<InfoReview />} />
-              <Route path="/reviewWrite/:title" element={<ReviewWrite />} />
+              <Route path="/info/:contestId" element={<Info />} />
+              <Route path="/infoReview/:contestId" element={<InfoReview />} />
+              <Route path="/reviewWrite/:contestId" element={<ReviewWrite />} />
               <Route path="/infoSave" element={<InfoSave />} />
-              <Route path="/reviewDetail" element={<ReviewDetail />} />
+              <Route path="/reviewDetail/:contestId/reviews/:reviewId" element={<ReviewDetail />} />
               <Route path="/reviewPay" element={<ReviewPay />} />
               <Route path="/teamMatch" element={<TeamMatch />} />
               <Route path="/matchApply" element={<MatchApply />} />

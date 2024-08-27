@@ -8,12 +8,14 @@ const Container = styled.div`
   height: 376px;
   margin: 16px;
 `;
+
 const Profiles = styled.img`
   width: 280px;
   height: 280px;
   border: 1px solid #5382df;
   border-radius: 20px;
 `;
+
 const TextRate = styled.div`
   display: flex;
   justify-content: center;
@@ -25,6 +27,7 @@ const TextRate = styled.div`
   padding: 32px;
   font-family: "Pretendard-SemiBold";
 `;
+
 const User = styled.div`
   display: flex;
   justify-content: center;
@@ -36,12 +39,12 @@ const User = styled.div`
   font-family: "Pretendard-Regular";
 `;
 
-const Profile = () => {
+const Profile = ({ userName, profileImageUrl }) => {
   return (
     <Container>
-      <Profiles alt="profile" />
+      <Profiles src={profileImageUrl} alt="profile" />
       <TextRate>최고의 공모전</TextRate>
-      <User>유저 이름</User>
+      <User>{userName || "유저 이름"}</User>
     </Container>
   );
 };

@@ -7,9 +7,10 @@ const MainPage = () => {
   const [contests, setContests] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState("deadline");
 
   const fetchContests = async () => {
-    const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
+    const token = localStorage.getItem("token");
     if (!token) {
       console.error("Access token is not available.");
       return;
@@ -20,7 +21,7 @@ const MainPage = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -29,13 +30,19 @@ const MainPage = () => {
         throw new Error(data.message || "Failed to fetch contests");
       }
 
-      // 기본 공모전 정보 저장
-      setContests(data.result.contestList);
-      setHasMore(data.result.contestList.length > 0);
-      setPage((prev) => prev + 1);
+      const fetchedContests = data.result.contestList;
+      const detailedContests = await fetchContestDetails(fetchedContests);
 
-      // 각 공모전의 상세 정보 가져오기
-      fetchContestDetails(data.result.contestList);
+      // D-day까지 포함하고, D+ 이후의 공모전들은 필터링
+      const filteredContests = detailedContests.filter(
+        (contest) =>
+          new Date(contest.endDate).setHours(0, 0, 0, 0) >=
+          new Date().setHours(0, 0, 0, 0)
+      );
+
+      setContests(filteredContests);
+      setHasMore(filteredContests.length > 0);
+      setPage((prev) => prev + 1);
     } catch (error) {
       console.error("Error fetching contests:", error);
     }
@@ -43,7 +50,7 @@ const MainPage = () => {
 
   const fetchContestDetails = async (contests) => {
     const token = localStorage.getItem("token");
-    const detailedContests = await Promise.all(
+    return await Promise.all(
       contests.map(async (contest) => {
         const response = await fetch(
           `http://13.209.114.87:8080/contest/${contest.contestId}`,
@@ -57,21 +64,47 @@ const MainPage = () => {
         );
 
         const detailData = await response.json();
-        return { ...contest, endDate: detailData.result.endDate };
+        if (!response.ok) {
+          throw new Error(
+            detailData.message || "Failed to fetch contest details"
+          );
+        }
+        return { ...contest, ...detailData.result };
       })
     );
-
-    setContests(detailedContests);
   };
 
   useEffect(() => {
     fetchContests();
   }, []);
 
+  const sortItems = (items, order) => {
+    return items.sort((a, b) => {
+      if (order === "deadline") {
+        return new Date(a.endDate) - new Date(b.endDate);
+      } else if (order === "name") {
+        return new Date(b.endDate) - new Date(a.endDate);
+      }
+      return 0;
+    });
+  };
+
+  const sortedContests = sortItems([...contests], sortOrder);
+
   return (
     <div>
+      <div className="sort-section">
+        <select
+          className="sort-select"
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+          <option value="deadline">마감순</option>
+          <option value="name">남은기간순</option>
+        </select>
+      </div>
       <InfiniteScroll
-        dataLength={contests.length}
+        dataLength={sortedContests.length}
         next={fetchContests}
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
@@ -82,14 +115,15 @@ const MainPage = () => {
         }
       >
         <div className="card-container">
-          {contests.map((contest) => (
+          {sortedContests.map((contest, index) => (
             <Card
-              key={contest.contestId}
+              key={index}
               title={contest.contestName}
               description={contest.contestCategory}
               imageUrl={contest.contestImageUrl}
               organization={contest.contestHost}
               deadline={contest.endDate} // endDate 사용
+              contestId={contest.contestId}
               onClick={() => console.log("Card clicked!")}
             />
           ))}

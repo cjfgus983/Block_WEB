@@ -103,7 +103,7 @@ const SignUp = () => {
           name="userId"
           value={form.userId}
           onChange={handleChange}
-          placeholder="아이디 입력"
+          placeholder="이메일 입력"
           className="input-id"
         />
         <button type="button">중복 확인</button>

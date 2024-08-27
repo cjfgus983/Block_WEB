@@ -52,7 +52,7 @@
   border-bottom: 2px solid #ccc;
   box-sizing: border-box;
   outline: none;
-  padding-left: 2.5em; /* 아이콘 공간 확보를 위한 왼쪽 패딩 추가 */
+  padding-left: 3em; /* 아이콘 공간 확보를 위한 왼쪽 패딩 추가 */
 }
 
 .login-button {
@@ -87,10 +87,13 @@
   background-image: url(img/icon_major.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
 }
 
 .input-pwd{
   background-image: url(img/icon_major.png);
   background-repeat: no-repeat;
   background-size: 24px 24px; /* 아이콘 크기 조정 */
+  background-position: left 10px center; /* 아이콘 위치 조정 */
+
 }

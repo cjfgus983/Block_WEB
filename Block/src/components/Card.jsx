@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // navigate 사용
 import styled from "styled-components";
 
 const calculateDday = (deadline) => {
@@ -6,7 +7,14 @@ const calculateDday = (deadline) => {
   const endDate = new Date(deadline);
   const diffTime = endDate - today;
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays > 0 ? `D-${diffDays}` : "D-Day";
+
+  if (diffDays > 0) {
+    return `D-${diffDays}`;
+  } else if (diffDays === 0) {
+    return "D-Day";
+  } else {
+    return `D+${Math.abs(diffDays)}`;
+  }
 };
 
 const Container = styled.div`
@@ -70,10 +78,16 @@ const Card = ({
   imageUrl,
   organization,
   deadline,
-  onClick,
+  contestId,
 }) => {
+  const navigate = useNavigate(); // useNavigate 훅 사용
+
+  const handleClick = () => {
+    navigate(`/info/${contestId}`); // contestId를 URL에 전달
+  };
+
   return (
-    <Container onClick={onClick}>
+    <Container onClick={handleClick}>
       <Poster src={imageUrl} alt={title} />
       <Day>{calculateDday(deadline)}</Day>
       <Agency>{organization}</Agency>

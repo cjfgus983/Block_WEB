@@ -32,7 +32,8 @@
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
+  margin-top: 30px;
 }
 
 .card-container > Card { /* 각 카드 컴포넌트를 가정합니다 */
@@ -57,6 +58,8 @@ h2 {
   background-color: #fff;
   position: absolute;
   right: 0;
+  margin-top: 10px;
+  margin-right: 10px;
 }
 
 .sort-select:focus {

@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { login, logout } from "../redux/authSlice"; // login 액션도 추가
+import { Link, useLocation } from "react-router-dom";
+import { login, setUserDetails, logout } from "../redux/authSlice";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { isLoggedIn } = useSelector((state) => state.auth); // 로그인 상태 가져오기
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [userName, setUserName] = useState(""); // 사용자 이름 저장용 상태
+  const location = useLocation(); // 현재 URL 경로 가져오기
+  const [loading, setLoading] = useState(true);
 
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("token");
-    window.location.href = "/intro"; // 로그아웃 후 페이지 이동
+    window.location.href = "/intro";
   };
 
-  // 페이지가 로드될 때 토큰을 확인하고 로그인 상태 유지
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      // 토큰이 있으면 로그인 상태를 true로 설정
       dispatch(login({ token }));
 
-      // 토큰이 있을 때만 사용자 정보를 가져오기
       const fetchUserInfo = async () => {
         try {
           const response = await fetch("http://13.209.114.87:8080/mypage", {
@@ -41,15 +39,19 @@ const Navbar = () => {
           }
 
           const data = await response.json();
-          setUserName(data.result.name); // 받아온 사용자 이름 상태에 저장
+          dispatch(setUserDetails(data.result)); // 사용자 정보를 전역 상태에 저장
         } catch (error) {
           console.error("Error fetching user info:", error);
+        } finally {
+          setLoading(false);
         }
       };
 
-      fetchUserInfo(); // 사용자 정보 가져오기
+      fetchUserInfo();
+    } else {
+      setLoading(false);
     }
-  }, [dispatch]); // dispatch는 의존성 배열에 추가
+  }, [dispatch, location.pathname]); // location.pathname이 변경될 때마다 useEffect 재실행
 
   return (
     <nav className="navbar">
@@ -59,15 +61,13 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-right">
-        {isLoggedIn ? (
+        {loading ? (
+          <span>Loading...</span> // 로딩 중일 때 보여줄 메시지
+        ) : isLoggedIn ? (
           <>
             <div className="navbar-user">
-              <img
-                src="/img/welcome-background.png"
-                alt="User Avatar"
-                className="user-avatar"
-              />
-              <span>{userName} 님</span> {/* 사용자 이름 표시 */}
+              <span>{user ? `${user.name} 님` : ""}</span>{" "}
+              {/* 전역 상태에서 사용자 이름 가져오기 */}
             </div>
             <Link to="/mypage" className="navbar-button">
               마이페이지

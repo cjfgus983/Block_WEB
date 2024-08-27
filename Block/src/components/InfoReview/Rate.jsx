@@ -1,168 +1,86 @@
 import React from "react";
 import styled from "styled-components";
-import FullStar from "../star/FullStar";
-import HalfStar from "../star/HalfStar";
-import EmptyStar from "../star/EmptyStar";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 280px;
-  height: 440px;
-`;
-const Profile = styled.img`
-  width: 280px;
-  height: 280px;
-  border-radius: 20px;
-  border: 1px solid #5382df;
-`;
-const User = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 270px;
-  height: 30px;
-  padding: 5px;
-  font-size: 24px;
-  font-family: "Pretendart-Regular";
-`;
-const TextRate = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 280px;
-  height: 40px;
-  padding: 10px;
-  font-size: 28px;
-  font-family: "Pretendard-SemiBold";
-`;
-const StarRate = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 280px;
-  height: 40px;
-  padding: 2px;
-`;
-const Rate = (props) => {
-  const integer = Math.floor(props.review.rate);
-  const rest = props.review.rate - integer;
-  const Star = () => {
-    if (rest == 0) {
-      if (integer == 5) {
-        return (
-          <StarRate>
-            <FullStar />
-            <FullStar />
-            <FullStar />
-            <FullStar />
-            <FullStar />
-          </StarRate>
-        );
-      } else if (integer == 4) {
-        return (
-          <StarRate>
-            <FullStar />
-            <FullStar />
-            <FullStar />
-            <FullStar />
-            <EmptyStar />
-          </StarRate>
-        );
-      } else if (integer == 3) {
-        return (
-          <StarRate>
-            <FullStar />
-            <FullStar />
-            <FullStar />
-            <EmptyStar />
-            <EmptyStar />
-          </StarRate>
-        );
-      } else if (integer == 2) {
-        return (
-          <StarRate>
-            <FullStar />
-            <FullStar />
-            <EmptyStar />
-            <EmptyStar />
-            <EmptyStar />
-          </StarRate>
-        );
-      } else if (integer == 1) {
-        return (
-          <StarRate>
-            <FullStar />
-            <EmptyStar />
-            <EmptyStar />
-            <EmptyStar />
-            <EmptyStar />
-          </StarRate>
-        );
-      } else {
-        return (
-          <StarRate>
-            <EmptyStar />
-            <EmptyStar />
-            <EmptyStar />
-            <EmptyStar />
-            <EmptyStar />
-          </StarRate>
-        );
-      }
-    } else {
-      if (integer == 4) {
-        return (
-          <StarRate>
-            <FullStar />
-            <FullStar />
-            <FullStar />
-            <FullStar />
-            <HalfStar />
-          </StarRate>
-        );
-      } else if (integer == 3) {
-        return (
-          <StarRate>
-            <FullStar />
-            <FullStar />
-            <FullStar />
-            <HalfStar />
-            <EmptyStar />
-          </StarRate>
-        );
-      } else if (integer == 2) {
-        return (
-          <StarRate>
-            <FullStar />
-            <FullStar />
-            <HalfStar />
-            <EmptyStar />
-            <EmptyStar />
-          </StarRate>
-        );
-      } else if (integer == 1) {
-        return (
-          <StarRate>
-            <FullStar />
-            <HalfStar />
-            <EmptyStar />
-            <EmptyStar />
-            <EmptyStar />
-          </StarRate>
-        );
-      }
-    }
+const Rate = ({ review }) => {
+  console.log("Review data:", review);
+  // 리뷰의 점수를 기반으로 별을 채우거나 비우는 로직을 추가합니다.
+  const renderStars = (score) => {
+    const fullStars = Math.floor(score); // 채워진 별의 수
+    const emptyStars = 5 - fullStars; // 빈 별의 수
+
+    return (
+      <StarRate>
+        {[...Array(fullStars)].map((_, index) => (
+          <FullStar key={index} />
+        ))}
+        {[...Array(emptyStars)].map((_, index) => (
+          <EmptyStar key={index} />
+        ))}
+      </StarRate>
+    );
   };
+
   return (
-    <Container>
-      <Profile src="" alt="profile" />
-      <User>{props.review.user}</User>
-      <TextRate>{props.review.headline}</TextRate>
-      <Star />
-    </Container>
+    <RateContainer>
+      <UserName>{review.userName}</UserName>
+      <Message>{review.message}</Message>
+      {renderStars(review.score)}
+    </RateContainer>
   );
 };
 
 export default Rate;
+
+const RateContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+`;
+
+const UserName = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const Message = styled.div`
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #555;
+  max-width: 200px;
+  white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 */
+  overflow: hidden; /* 넘치는 텍스트를 숨깁니다 */
+  text-overflow: ellipsis; /* 넘치는 텍스트를 '...'로 표시합니다 */
+`;
+
+const StarRate = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const FullStar = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: gold; /* 별의 색상 */
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  ); /* 별 모양을 나타내는 클립 경로 */
+  margin-right: 5px;
+`;
+
+const EmptyStar = styled(FullStar)`
+  background-color: #ccc; /* 빈 별의 색상 */
+`;
