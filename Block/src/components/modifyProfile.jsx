@@ -1,117 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
+import "./modifyProfile.css";
 import styled from "styled-components";
-import "../assets/font/pretendard.css"
-const ModifyProfile = () => {
+
+const ModifyProfile = ({ userInfo }) => {
+  const [form, setForm] = useState({
+    university: userInfo.university || "",
+    univMajor: userInfo.major || "",
+    portfolio: userInfo.portfolio || "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const requestBody = {
+      userId: userInfo.userId,
+      passWord: userInfo.passWord,
+      birthDay: userInfo.birthDay,
+      phoneNumber: userInfo.phoneNumber,
+      address: userInfo.address,
+      university: form.university,
+      univMajor: form.univMajor,
+      portfolio: form.portfolio,
+    };
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://13.209.114.87:8080/mypage/edit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const responseText = await response.text();
+
+      if (!response.ok) {
+        const errorData = responseText ? JSON.parse(responseText) : {};
+        throw new Error(errorData.message || "정보 수정에 실패했습니다.");
+      }
+
+      alert("정보 수정에 성공했습니다!");
+      // 정보 수정 후 페이지 새로고침
+      window.location.reload();
+    } catch (error) {
+      alert(`정보 수정 중 오류가 발생했습니다: ${error.message}`);
+    }
+  };
+
   return (
     <Container>
-        <div className="signup-container">
-      <div className="signup-box">
-        <form className="signup-form">
-          <div className="form-group">
-            <label htmlFor="username">아이디</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="아이디"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">비밀번호</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="비밀번호"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="name">이름</label>
-            <input type="text" id="name" name="name" placeholder="이름" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="birthdate">생년월일</label>
-            <input
-              type="text"
-              id="birthdate"
-              name="birthdate"
-              placeholder="예시: 20000101"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="phone">핸드폰 번호</label>
-            <input
-              type="text"
-              id="phone"
-              name="phone"
-              placeholder="핸드폰 번호"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="address">주소 입력</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              placeholder="주소 입력"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="university">대학교 입력</label>
-            <input
-              type="text"
-              id="university"
-              name="university"
-              placeholder="대학교 입력"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="major">대학교 전공 입력</label>
-            <input
-              type="text"
-              id="major"
-              name="major"
-              placeholder="대학교 전공 입력"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="portfolio">포트폴리오</label>
-            <input type="file" id="portfolio" name="portfolio" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="interest">관심 분야</label>
-            <select id="interest" name="interest">
-              <option value="">선택하세요</option>
-              <option value="option1">옵션 1</option>
-              <option value="option2">옵션 2</option>
-              <option value="option3">옵션 3</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="terms">약관 동의</label>
-            <input type="checkbox" id="terms" name="terms" /> 서비스 이용약관 및
-            개인정보 취급 방침 동의
-            <br />
-            <input type="checkbox" id="marketing" name="marketing" /> 마케팅
-            정보 수신 동의 (선택)
-          </div>
-          <button type="submit" className="signup-button">
-            회원 가입 완료
-          </button>
-        </form>
-      </div>
-    </div>
+      <form className="signup-form" onSubmit={handleSubmit}>
+        <div className="input-group">
+          <input
+            type="text"
+            name="university"
+            value={form.university}
+            onChange={handleChange}
+            placeholder="대학교 입력"
+            className="input-school"
+            required
+          />
+        </div>
+        <div className="input-group">
+          <input
+            type="text"
+            name="univMajor"
+            value={form.univMajor}
+            onChange={handleChange}
+            placeholder="대학교 전공 입력"
+            className="input-major"
+            required
+          />
+        </div>
+        <div className="input-group">
+          <input
+            type="text"
+            name="portfolio"
+            value={form.portfolio}
+            onChange={handleChange}
+            placeholder="포트폴리오(선택)"
+            className="input-portfolio"
+          />
+        </div>
+        <button type="submit" className="submitButton">
+          수정 완료
+        </button>
+      </form>
     </Container>
   );
 };
 
-const Container = styled.div `
-    padding-top: 30px;
-    background-color: #5382DF;
-    font-family: Pretendard-Regular;
-    font-size: 28px;
-
-
+const Container = styled.div`
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color: #5382df;
+  font-family: Pretendard-Regular;
+  font-size: 28px;
 `;
 
 export default ModifyProfile;

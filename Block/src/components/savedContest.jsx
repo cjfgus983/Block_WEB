@@ -1,23 +1,39 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom"; // useNavigate 사용
 import "../assets/font/pretendard.css";
 import option_savedCompetition from "../assets/img/option_savedCompetition.png";
 import optionClicked_savedCompetition from "../assets/img/optionClicked_savedCompetition.png";
 import option_savedReview from "../assets/img/option_savedReview.png";
 import optionClicked_savedReview from "../assets/img/optionClicked_savedReview.png";
 
-
 const SavedContest = () => {
+  const navigate = useNavigate();
+
+  const handleCompetitionClick = () => {
+    navigate("/infoSave");
+  };
+
+  const handleReviewClick = () => {
+    navigate("/infoReview");
+  };
+
   return (
     <Container>
-        
-        <ClickBox imgSrc={option_savedCompetition} hoverImgSrc={optionClicked_savedCompetition} />
-
-        <ClickBox imgSrc={option_savedReview} hoverImgSrc={optionClicked_savedReview} />
-
+      <ClickBox 
+        onClick={handleCompetitionClick}
+        imgSrc={option_savedCompetition} 
+        hoverImgSrc={optionClicked_savedCompetition} 
+      />
+      <ClickBox 
+        onClick={handleReviewClick}
+        imgSrc={option_savedReview} 
+        hoverImgSrc={optionClicked_savedReview} 
+      />
     </Container>
   );
 };
+
 const ClickBox = styled.button`
   background-image: url(${(props) => props.imgSrc});
   background-size: cover;
@@ -46,10 +62,6 @@ const Container = styled.div `
     display: flex;
     justify-content: center;
     align-items: center;
-
 `;
-
-
-
 
 export default SavedContest;
